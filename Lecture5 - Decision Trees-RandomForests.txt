@@ -1,0 +1,796 @@
+﻿Machine Learning
+Decision Trees
+Random Forests
+
+Donny Hurley
+
+ATU
+
+Donny Hurley Decision Trees 1 / 55
+
+
+
+Decision Trees: Motivation
+
+All classification models implement decision rules.
+A decision tree makes these rules explicit and interpretable.
+Instead of us writing conditions, the model learns them from data.
+
+Donny Hurley Decision Trees 2 / 55
+
+
+
+ML as Learned If / Else Rules
+
+if ???:
+return ’red’
+
+elif ???:
+return ’orange ’
+
+For example, in digit recognition:
+
+if img[4,8] < 30 and img [32 ,18] > 10:
+return ’1’
+
+Decision trees learn these rules automatically.
+
+Donny Hurley Decision Trees 3 / 55
+
+
+
+Decision Trees: Core Idea
+
+Start with all training data.
+
+Choose a feature and a threshold.
+
+Split the data into two groups.
+
+Repeat recursively on each branch.
+
+Stop when further splitting is unnecessary.
+
+The result is a tree of decisions.
+
+Donny Hurley Decision Trees 4 / 55
+
+
+
+Example
+
+Simple rules:
+
+If x is small, predict purple.
+
+Else if y is small, predict red.
+
+Else predict green.
+
+Donny Hurley Decision Trees 5 / 55
+
+
+
+Tree Terminology
+
+Root node: first split
+
+Internal nodes: decision points
+
+Leaf nodes: final predictions
+
+Donny Hurley Decision Trees 6 / 55
+
+
+
+Decision trees are a type of classifier network.
+
+They are very easy to interpret which means that if causal reasoning is important
+then they can be one of the better ways to go.
+
+This works because it is very easy to trace our way back up the tree to determine
+why each decision was made.
+
+In general, trees are upside down with the root at the top and the leaves at the
+bottom.
+
+Nodes that are neither the root or a leaf are called internal nodes. If we get to a
+leaf node, a classification has been made.
+
+Donny Hurley Decision Trees 7 / 55
+
+
+
+Decision Trees I
+
+We can use scikit-learn to do the work
+
+from sklearn.tree import DecisionTreeClassifier
+model = DecisionTreeClassifier(max_depth =2)
+model.fit(X_train , y_train)
+
+Giving these decision boundaries
+
+Donny Hurley Decision Trees 8 / 55
+
+
+
+Decision Trees II
+You’ll notice max depth is a hyperparameter. Increasing that will make things more
+complex, with the usual risk of overfitting. With this ”toy” example and depth four we
+get the following decision boundaries
+
+Another option: how many nodes must be on a branch before it’s too small to split?
+
+model = DecisionTreeClassifier(min_samples_split =30)
+
+Donny Hurley Decision Trees 9 / 55
+
+
+
+Controlling Tree Complexity
+
+Important hyperparameters:
+
+max depth – how many decisions are chained
+
+min samples leaf – minimum samples at a leaf
+
+min samples split - minimum number of samples required to split an internal
+node
+
+You can of course combine them and set multiple hyperparameters.
+
+Deep trees: low bias, high variance
+
+Shallow trees: higher bias, lower variance
+
+Donny Hurley Decision Trees 10 / 55
+
+
+
+Visualising
+
+Scikit-learn can visualise the decision trees for us https://scikit-learn.org/
+stable/modules/generated/sklearn.tree.export_graphviz.html exporting to
+graphviz. For the two max depths we get
+
+Donny Hurley Decision Trees 11 / 55
+
+
+
+How Does a Tree Decide Where to Split?
+
+At each node, the algorithm chooses the split that produces the purest child nodes.
+Purity measures how mixed the class labels are after the split.
+Common impurity measures:
+
+Gini impurity (default in scikit-learn)
+
+Entropy
+
+Both are a measure of how ”pure” a branch is. If we can split so that 100% of
+values on each side are in one category, then that’s good. If we split so that every
+outcome is equally likely on each side, that’s bad. Create the decision that
+maximizes ”goodness”.
+
+Either method seems to produce similar trees. In either case, we create a decision,
+and then recurse until we have to stop.
+
+Donny Hurley Decision Trees 12 / 55
+
+
+
+Gini Impurity
+
+Gini impurity measures how mixed the classes are at a node.
+
+∑c
+G = 1− p2i
+
+i=1
+
+where pi is the proportion of class i at the node.
+
+G = 0 ⇒ node is perfectly pure
+
+Equal class proportions ⇒ high Gini
+
+Donny Hurley Decision Trees 13 / 55
+
+
+
+Reading Gini from a Tree
+
+When viewing a tree (e.g. Graphviz output):
+
+Gini is displayed at each node
+
+Leaf nodes with only one class have Gini = 0
+
+Internal nodes with mixed labels have G > 0
+
+Donny Hurley Decision Trees 14 / 55
+
+
+
+Tree examples
+
+The default for sklearn.tree.DecisionTreeClassifier criterion is ’gini’ but you can set it
+to ’entropy’ like the following examples.
+
+Donny Hurley Decision Trees 15 / 55
+
+
+
+Depth of 2
+
+Donny Hurley Decision Trees 16 / 55
+
+
+
+Depth of 3
+
+Donny Hurley Decision Trees 17 / 55
+
+
+
+Depth of 4
+
+Donny Hurley Decision Trees 18 / 55
+
+
+
+Depth of 6
+
+Donny Hurley Decision Trees 19 / 55
+
+
+
+Scores
+
+Tree depth 1 Training Score 0.694444 Validation Score: 0.562500
+Tree depth 2 Training Score 0.888889 Validation Score: 0.937500
+Tree depth 3 Training Score 0.888889 Validation Score: 0.937500
+Tree depth 4 Training Score 0.944444 Validation Score: 1.000000
+Tree depth 5 Training Score 0.972222 Validation Score: 0.937500
+Tree depth 6 Training Score 1.000000 Validation Score: 0.937500
+Keep in mind that there are only 32 points in our training set and 16 points in our
+validation set so more data would certainly help the situation.
+
+Donny Hurley Decision Trees 20 / 55
+
+
+
+Training vs Validation Performance
+
+As tree depth increases:
+
+Training accuracy increases
+
+Validation accuracy may decrease
+
+This is overfitting.
+
+Donny Hurley Decision Trees 21 / 55
+
+
+
+Advantages of Decision Trees
+
+Highly interpretable
+
+Minimal preprocessing required
+
+Handle numeric and categorical data
+
+Capture nonlinear interactions
+
+Useful when explanation matters
+
+Donny Hurley Decision Trees 22 / 55
+
+
+
+Disadvantages of Decision Trees
+
+High variance
+
+Sensitive to small data changes
+
+Single trees rarely generalise optimally
+
+Donny Hurley Decision Trees 23 / 55
+
+
+
+Ensembles
+
+It can sometimes be hard to balance the complexity of the classifier with
+over-fitting. Sometimes, we’ll find that no single classifier will do a great job on
+the problem.
+
+It can be easy to produce a classifier that makes predictions better than chance,
+but still not great.
+
+Often useful to have many simple classifiers, with some differences in their
+construction so they produce different results and let them vote: an ensemble
+
+An ensemble can often produce good results, even though the individual classifiers
+are quite bad.
+
+Combining many weak models can give a much stronger and robust result that
+generalises better.
+
+The wisdom of the crowd
+
+Donny Hurley Decision Trees 24 / 55
+
+
+
+Ensembles
+
+Usually, all of the models will be of the same type, but they don’t have to be. A
+VotingClassifier will let you combine any collection of models you want, train them
+together, and vote on predictions.
+
+model = VotingClassifier ([
+(’nb’, GaussianNB ()),
+(’knn’, KNeighborsClassifier (5)),
+(’svm’, SVC(kernel=’linear ’, C=0.1)) ,
+(’tree1 ’, DecisionTreeClassifier(max_depth =4)),
+(’tree2 ’, DecisionTreeClassifier(min_samples_leaf =10)) ,
+
+])
+model.fit(X_train , y_train)
+print(model.score(X_train , y_train ))
+print(model.score(X_valid , y_valid ))
+
+Donny Hurley Decision Trees 25 / 55
+
+
+
+Random Forests
+
+A random forest is an ensemble of decision trees where:
+
+Each tree is trained on a bootstrap sample
+
+Each split considers only a random subset of features
+
+Predictions are aggregated by voting
+
+Donny Hurley Decision Trees 26 / 55
+
+
+
+Random Forest in scikit-learn
+
+from sklearn.ensemble import RandomForestClassifier
+
+model = RandomForestClassifier(
+n_estimators =100,
+max_depth =5,
+min_samples_leaf =10
+
+)
+model.fit(X_train , y_train)
+
+Donny Hurley Decision Trees 27 / 55
+
+
+
+Random Forests
+
+Each decision tree will be constructed as before, but. . .
+
+individual trees will likely be simpler (lower max depth, fewer leaves, etc);
+
+when training, use only a sample of the training data (chosen randomly with
+replacement, a bootstrap sample);
+
+for each decision, consider only a random subset of the features.
+
+. . . and repeat many times.
+
+Donny Hurley Decision Trees 28 / 55
+
+
+
+Random Forest 10 times
+
+Donny Hurley Decision Trees 29 / 55
+
+
+
+Hyperparameters That Matter
+
+Focus on:
+
+max depth
+
+min samples leaf
+
+n estimators
+
+More trees ⇒ lower variance but higher computation cost.
+
+Donny Hurley Decision Trees 30 / 55
+
+
+
+Random Forests I
+
+Original toy data. When constructing a random forest, we get the same options as a
+decision tree about the tree shape, plus the number of estimators (and some other
+choices about the randomness of the construction).
+
+from sklearn.ensemble import RandomForestClassifier
+model = RandomForestClassifier(n_estimators =100,
+
+max_depth =3, min_samples_leaf =10)
+model.fit(X_train , y_train)
+print(model.score(X_train , y_train ))
+print(model.score(X_valid , y_valid ))
+
+0.9653333333333334
+0.92
+
+Donny Hurley Decision Trees 31 / 55
+
+
+
+Random Forests II
+
+We get a reasonable-looking decision boundary
+
+Donny Hurley Decision Trees 32 / 55
+
+
+
+Random Forests III
+
+A few of the decision trees from the forest:
+
+Donny Hurley Decision Trees 33 / 55
+
+
+
+Random Forests IV
+
+None of the individual trees make great decisions, but together they do.
+
+The voting among trees can also help with over-fitting: since each was trained with a
+subset of the data, it’s less of a problem.
+
+Donny Hurley Decision Trees 34 / 55
+
+
+
+Random Forests V
+
+Let’s try some data from make moons. We can say very little about tree size but still
+get good results:
+
+model = RandomForestClassifier(n_estimators =400, max_depth =7)
+model.fit(X_train , y_train)
+print(model.score(X_train , y_train ))
+print(model.score(X_valid , y_valid ))
+
+1.0
+1.0
+
+Donny Hurley Decision Trees 35 / 55
+
+
+
+Random Forests VI
+
+There is still maybe some over-fitting, but it’s not affecting the scores.
+
+Donny Hurley Decision Trees 36 / 55
+
+
+
+Random Forest Algorithm
+
+1 Draw a random bootstrap sample of size n (randomly choose n samples from the
+training set with replacement i.e. there can be duplicates).
+
+2 Grow a decision tree from the bootstrap sample. At each node:
+Randomly select d features without replacement i.e. no duplicates.
+Split the node using the feature that provides the best split according to the
+objective function, for instance, by maximising the information gain.
+
+3 Repeat the steps 1 and 2 k times.
+4 Aggregate the prediction by each tree to assign the class label by majority vote.
+
+Donny Hurley Decision Trees 37 / 55
+
+
+
+Bias–Variance Summary
+
+Deep single tree: low bias, high variance
+
+Shallow tree: higher bias, lower variance
+
+Random forest: low variance, good generalisation
+
+Donny Hurley Decision Trees 38 / 55
+
+
+
+When to Use Trees and Random Forests
+
+They work particularly well for:
+
+Tabular data
+
+Mixed feature types
+
+Nonlinear relationships
+
+Small to medium datasets
+
+Messy or noisy data
+
+Donny Hurley Decision Trees 39 / 55
+
+
+
+Trees vs Neural Networks
+
+Trees: tabular, interpretable, low preprocessing
+
+Neural networks: images, text, audio, large datasets
+
+Trees are often strong baselines
+
+Neural networks are rarely the best choice for tabular data
+
+Donny Hurley Decision Trees 40 / 55
+
+
+
+Out-of-Bag Estimation
+
+Each tree leaves out ≈ 1/3 of training samples
+
+These are called out-of-bag samples
+
+Can estimate generalisation internally
+
+Useful, but not a replacement for validation
+
+Donny Hurley Decision Trees 41 / 55
+
+
+
+Reproducibility with Random Forests and Cross Validation
+Random forests contain randomness:
+
+Bootstrap sampling of training data
+Random subset of features at each split
+
+To ensure consistent cross-validation results, fix the random seed:
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
+
+model = RandomForestClassifier(
+n_estimators =100,
+random_state =42
+
+)
+
+%scores = cross_val_score(model , X_train , y_train)
+
+Setting random state ensures reproducible results across runs.
+Donny Hurley Decision Trees 42 / 55
+
+
+
+Summary
+
+Decision trees are interpretable but unstable
+
+Random forests reduce variance via averaging
+
+Excellent choice for tabular data
+
+Strong baselines before neural networks
+
+Donny Hurley Decision Trees 43 / 55
+
+
+
+Multi-class Classification
+
+The last two model types we studied were kNN and RandomForest. These both
+naturally handle multiple classes.
+
+Logistic Regression and Support Vector Machines are binary classifiers at their core.
+
+They are designed to separate two classes.
+But in the lab we used LogisticRegression to classify multiple things.
+How is that possible if it is a binary model?
+We need strategies to extend binary classifiers to multi-class problems.
+
+Donny Hurley Decision Trees 44 / 55
+
+
+
+Three Ways to Extend Binary Classifiers
+
+There are three main strategies:
+
+One-vs-Rest (OvR)
+
+One-vs-One (OvO)
+
+Direct Multinomial Model (Softmax)
+
+OvR and OvO are reduction strategies:
+
+Reduce a multi-class problem to many binary problems
+
+Softmax is a direct multi-class model.
+
+Donny Hurley Decision Trees 45 / 55
+
+
+
+One-vs-Rest (OvR) (Sometimes called One-vs-all
+
+Turn the k-class problem into k
+binary problems.
+
+Each classifier learns:
+
+Class i vs All Other Classes
+
+This produces k models.
+
+Three classes: Road, Road Sign, Other.
+
+Donny Hurley Decision Trees 46 / 55
+
+
+
+One-vs-rest
+
+Road Vs All Road Signs Vs All
+
+Donny Hurley Decision Trees 47 / 55
+
+
+
+Using One-vs-Rest
+
+To classify a new sample:
+
+Run it through all k classifiers.
+
+Each classifier produces a score or probability.
+
+Choose the class with the highest score.
+
+OvR is now the default strategy for many SVM implementations.
+
+Donny Hurley Decision Trees 48 / 55
+
+
+
+Properties of One-vs-Rest
+
+Requires k classifiers.
+
+Simple and widely used.
+Can suffer from class imbalance:
+
+One positive class
+Many negatives
+
+Works well in practice.
+
+Modern SVM implementations typically use OvR by default.
+
+Donny Hurley Decision Trees 49 / 55
+
+
+
+One-vs-One (OvO)
+
+Another strategy is One-vs-One.
+
+Train a classifier for every pair of classes.
+
+Number of classifiers:
+k(k − 1)
+
+2
+Final prediction is made by majority vote.
+
+Donny Hurley Decision Trees 50 / 55
+
+
+
+One-vs-One Example
+
+For three classes A, B, C:
+We train:
+
+A vs B
+
+A vs C
+
+B vs C
+
+A new sample might produce:
+(B,A,B)
+
+Majority vote ⇒ class B.
+
+Donny Hurley Decision Trees 51 / 55
+
+
+
+Donny Hurley Decision Trees 52 / 55
+
+
+
+Properties of One-vs-One
+
+Many more classifiers than OvR.
+
+Each classifier is trained on only two classes.
+
+Historically used in SVM implementations (e.g. libsvm).
+
+Computational cost grows quickly with number of classes.
+
+Donny Hurley Decision Trees 53 / 55
+
+
+
+Modern Logistic Regression
+
+Originally, Logistic Regression was binary only.
+It could be extended using OvR.
+Modern implementations instead use a direct multi-class formulation:
+
+Multinomial Logistic Regression (Softmax)
+
+P(y = k |x) = ∑ew
+T
+k x
+
+wT
+j
+
+j e
+x
+
+This is called the softmax function.
+
+We will see this again when we study Neural Networks.
+
+Donny Hurley Decision Trees 54 / 55
+
+
+
+Reduction vs Direct Multiclass
+
+OvR and OvO:
+Reduce problem to multiple binary classifiers
+
+Softmax:
+Single model
+Jointly models all classes
+
+Modern LogisticRegression uses softmax.
+Modern SVM typically uses OvR.
+All three strategies are still important concepts.
+
+Donny Hurley Decision Trees 55 / 55
