@@ -1,0 +1,830 @@
+﻿Machine Learning Technologies
+k-Nearest Neighbours
+
+Metrics
+
+Donny Hurley
+
+ATU Galway
+
+Donny Hurley Metrics 1 / 49
+
+
+
+Lazy and Eager Learning
+
+Lazy: wait for query before generalizing
+kNearest Neighbour, Case based reasoning
+
+Eager: generalize before seeing query
+Radial basis function networks, ID3, Backpropagation, NaiveBayes, ...
+
+Does it matter?
+Eager learner must create global approximation, but Lazy learner can create many
+local approximations
+
+if they use same H, lazy can represent more complex fns (e.g., consider H =
+linear functions)
+
+Donny Hurley kNN 2 / 49
+
+
+
+k-Nearest Neighbours
+
+Donny Hurley kNN 3 / 49
+
+
+
+kNN Basics
+
+kNN is basically a two-part algorithm
+1 Retrieve the k most similar recorded cases
+2 “Average” across these k cases (regression)
+
+take the max of k votes for ordinal types (classification)
+
+so kNN can be used for either regression or classification. However, let’s ignore
+regression and stick to classification!
+
+Donny Hurley kNN 4 / 49
+
+
+
+Distance
+
+May require examining all instances
+
+Donny Hurley kNN 5 / 49
+
+
+
+Voronoi Diagram
+
+We typically need a notion of ”distance” to calculate the ”nearest” neighbour. Often
+use Euclidean distance i.e. (with p predictor values, t is a target and s is a source, t1 is
+the first attribute for t, t2 etc. √
+
+d(t, s) = (t1 − s1)2 + . . .+ (tp − sp)2
+
+Caution: Scale matters. If one predictor has is a much larger value than another, it will
+contribute more to the distance measurement.
+
+Donny Hurley kNN 6 / 49
+
+
+
+Formalising everything
+
+1 If you have a training set of data (x1, x2, . . . , xm).
+2 Given a target xj.
+3 Calculate all d(xj, xi) and select the k smallest ones.
+4 Classify/Approximate xj based on the k nearest xi you found.
+
+Donny Hurley kNN 7 / 49
+
+
+
+Nearest Neighbour
+What if the prediction is made by just looking at which training point is it closest to?
+
+Donny Hurley kNN 8 / 49
+
+
+
+Nearest Neighbour
+Not too bad. Looks like overfitting the training data.
+
+Donny Hurley kNN 9 / 49
+
+
+
+Nearest Neighbour
+With the validation data, can see noise.
+
+Donny Hurley kNN 10 / 49
+
+
+
+k Nearest Neighbour
+
+Instead of looking at the one nearest training point, we could look at k and have
+a vote: a k-nearest neighbours classifier.
+
+e.g. with k = 5, we might want to predict a category for a point and find that the
+nearest five training points are green, green, red, green, red. Take the most
+common and predict green.
+
+Donny Hurley kNN 11 / 49
+
+
+
+k Nearest Neighbour
+Smooths out some of the overfitting
+
+Donny Hurley kNN 12 / 49
+
+
+
+sklearn
+
+Of course we want to do this by programming. It follows the exact same procedure as
+the others. Model, fit, evaluate.
+
+1 from s k l e a r n . n e i g hbo r s impor t KN e i g h b o r s C l a s s i f i e r
+2 model = KNe i g h b o r s C l a s s i f i e r ( n n e i g hbo r s =5)
+3 model . f i t ( X t r a i n , y t r a i n )
+4 p r i n t ( model . s c o r e ( X va l , y v a l ) )
+5
+
+6 0 .944
+
+which is quite a good result for such a simple technique
+
+Donny Hurley kNN 13 / 49
+
+
+
+Choosing k
+
+There’s tradeoff. If k is too small, you’ll overfit the training data. If it’s too large,
+you’ll underfit reality.
+
+Any guesses?
+
+Cross-validation. Experiment.
+
+So you can use k-fold cross validation to choose the k in k-nearest neighbours....is that
+confusing? They are two different k’s!
+
+We are choosing the hyperparameter k for k-nearest neighbours and you apply say a
+10-fold cross validation procedure to choose it
+
+Donny Hurley kNN 14 / 49
+
+
+
+kNN
+kNN can create a complicated boundary shape (both with
+KNeighborsClassifier(9)):
+
+Donny Hurley kNN 15 / 49
+
+
+
+Curse of Dimensionality
+
+Imagine instances described by 20 attributes, but only 2 are relevant to target
+function
+
+Curse of dimensionality: nearest nbr is easily mislead when highdimensional X
+
+High-dimensionality increases sparcity. The more features, the further the distance
+aparts are going to be
+
+Donny Hurley kNN 16 / 49
+
+
+
+Remark on Nearest Neighbours
+
+One further remark on nearest neighbours
+
+Since the calculations are done when a new data point is attempting to be classified,
+the model must store all the training information. (Lazy)
+
+Storing all the training information can be quite wasteful, better generalisation models
+would not have to store the full training set.
+
+k-nearest neighbours is very quick to train (it does not do anything except store the
+set), however prediction is slow
+
+It also will take up more memory than Eager models. Eager models just store the
+weights, Lazy ones store the entire dataset.
+
+Donny Hurley kNN 17 / 49
+
+
+
+Further dimensions
+
+It’s easy to show examples that are 2D points: they make nice figures and are
+easy to visualize, but they aren’t so realistic.
+
+Let’s look at some more realistic data: there are lots of example data sets out
+there for ML experimentation: mldata.org, UCI Machine Learning Repository,
+KDnuggets dataset list.
+
+Scikit-learn has some data sets built-in. (like the diabetes and iris datasets that
+we’ve seen)
+
+Donny Hurley kNN 18 / 49
+
+
+
+Sklearn datasets
+
+1 from s k l e a r n . d a t a s e t s impor t l o a d b r e a s t c a n c e r
+2 bc = l o a d b r e a s t c a n c e r ( )
+3 p r i n t ( bc . data . shape )
+4 p r i n t ( bc . t a r g e t . shape , np . un ique ( bc . t a r g e t ) )
+5 p r i n t ( bc . f e a t u r e names )
+6 X = bc . data
+7 y = bc . t a r g e t
+
+Donny Hurley kNN 19 / 49
+
+
+
+Sklearn datasets
+
+1 (569 , 30)
+2 (569 , ) [ 0 1 ]
+3 [ ’mean r a d i u s ’ ’mean t e x t u r e ’ ’mean p e r ime t e r ’ ’mean a r ea ’
+4 ’mean smoothness ’ ’mean compactness ’ ’mean c on c a v i t y ’
+5 ’mean concave p o i n t s ’ ’mean symmetry ’ ’mean f r a c t a l d imens ion ’
+6 ’ r a d i u s e r r o r ’ ’ t e x t u r e e r r o r ’ ’ p e r ime t e r e r r o r ’ ’ a r ea e r r o r ’
+7 ’ smoothness e r r o r ’ ’ compactness e r r o r ’ ’ c o n c a v i t y e r r o r ’
+8 ’ concave p o i n t s e r r o r ’ ’ symmetry e r r o r ’ ’ f r a c t a l d imens ion e r r o r ’
+9 ’ wor s t r a d i u s ’ ’ wor s t t e x t u r e ’ ’ wor s t p e r ime t e r ’ ’ wor s t a r ea ’
+
+10 ’ wor s t smoothness ’ ’ wor s t compactness ’ ’ wor s t c o n c a v i t y ’
+11 ’ wor s t concave p o i n t s ’ ’ wor s t symmetry ’ ’ wor s t f r a c t a l d imens ion ’ ]
+
+Donny Hurley kNN 20 / 49
+
+
+
+Sklearn datasets
+
+Apply a randomly-chosen classifier and it does quite well
+
+1 model = GaussianNB ( )
+2 model . f i t ( X t r a i n , y t r a i n )
+3 p r i n t ( model . s c o r e ( X va l , y v a l ) )
+4 p r i n t ( c l a s s i f i c a t i o n r e p o r t ( y v a l , model . p r e d i c t ( X va l ) ) )
+5
+
+6 0.944055944056
+7 p r e c i s i o n r e c a l l f1=s c o r e suppo r t
+8
+
+9 0 0 .94 0 .91 0 .93 55
+10 1 0 .94 0 .97 0 .96 88
+11
+
+12 avg / t o t a l 0 .94 0 .94 0 .94 143
+
+Although the 5.6% inaccuracy may be too much for this type of information. Ignore
+this and just think of modelling.
+
+Donny Hurley kNN 21 / 49
+
+
+
+Sklearn datasets - kNN
+
+kNN seems to do worse
+
+1 model = KNe i g h b o r s C l a s s i f i e r ( n n e i g hbo r s =9)
+2 model . f i t ( X t r a i n , y t r a i n )
+3 p r i n t ( model . s c o r e ( X va l , y v a l ) )
+4
+
+5 0.923076923077
+
+Any ideas why?
+Ask questions about the dataset, how it fits into the model and how the model reacts.
+Remember I said about distance metrics being heavily influenced by larger values, so
+we may need some form of scaling.
+
+Donny Hurley kNN 22 / 49
+
+
+
+Sklearn datasets - kNN
+
+The scales are completely different. Measuring ”nearest” counts ”mean radius” as
+much more important than ”worst concavity”.
+
+1 bc d f = pd . DataFrame ( bc . data , columns=bc . f e a tu r e names )
+2 p r i n t ( b c d f [ [ ’mean r a d i u s ’ , ’ t e x t u r e e r r o r ’ , ’ wor s t c o n c a v i t y ’ ] ] .
+
+d e s c r i b e ( ) )
+3
+
+4 mean r a d i u s t e x t u r e e r r o r wors t c o n c a v i t y
+5 count 569.000000 569.000000 569.000000
+6 mean 14.127292 1.216853 0.272188
+7 s t d 3 .524049 0.551648 0.208624
+8 min 6.981000 0.360200 0.000000
+9 25% 11.700000 0.833900 0.114500
+
+10 50% 13.370000 1.108000 0.226700
+11 75% 15.780000 1.474000 0.382900
+12 max 28.110000 4.885000 1.252000
+
+Donny Hurley kNN 23 / 49
+
+
+
+Feature Scaling
+
+At the very least, we can bring the features into a similar range.
+
+This is a common transformation step at the start of a model: scale each feature
+separately so they have the same ”size”. That could mean scaling your data so:
+
+the smallest value is 0 and the largest is 1.
+
+the mean is 0 and standard deviation is 1.
+
+something else that makes sense for your data.
+
+Donny Hurley kNN 24 / 49
+
+
+
+Feature Scaling
+
+sklearn of course has a transformer
+
+1 from s k l e a r n . p r e p r o c e s s i n g impor t MinMaxScaler , S t anda r dSca l e r
+2 model = mak e p i p e l i n e (
+3 S t anda r dSca l e r ( ) ,
+4 KNe i g h b o r s C l a s s i f i e r ( n n e i g hbo r s =9)
+5 )
+6 model . f i t ( X t r a i n , y t r a i n )
+7 p r i n t ( model . s c o r e ( X va l , y v a l ) )
+8
+
+9 0.958041958042
+
+An improvement on both GaussianNB and the previous KNeighborsClassifier
+
+Donny Hurley kNN 25 / 49
+
+
+
+Evaluating Machine Learning Models
+
+How predictive is the model we learned?
+For regression, usually
+
+Mean Squared Error (MSE) : What we used for linear regression
+R2
+
+p-values (Hypothesis testing)
+F-stats (ANOVA)
+AIC/BIC
+
+For classification, many options
+ROC curve
+Lift Chart
+Accuracy score
+F1 Score, Recall, Precision
+
+Donny Hurley Metrics 26 / 49
+
+
+
+Choosing a metric
+
+The procedure of systematically choosing a set of predictors that have a
+significant relationship with the response variable is called variable selection.
+
+But which metric (F-stats, p-values [hypothesis testing], R2, AIC/BIC) should we
+use to determine the significance of a set of predictors?
+
+Rather than relying on a single metric, we should use multiple metrics in
+conjunction and double check with common sense!
+
+Donny Hurley Metrics 27 / 49
+
+
+
+Classification Evaluation
+
+For evaluating Classification algorithms often people just see how accurate the
+predictions are on the test set
+
+1 y p r ed = model . p r e d i c t ( X va l )
+2 from s k l e a r n . me t r i c s impor t a c c u r a c y s c o r e
+3 a c c u r a c y s c o r e ( y v a l , y p r ed )
+
+Will give a score (≤ 1) which is the fraction of how many predictions were correct.
+
+This stores the y predictions separately (which may be useful later) but the model has
+a method itself that can be used if you just want the accuracy score
+
+1 model . s c o r e ( X va l , y v a l )
+
+This one line does the predicting and comparing of predictions in the same step.
+
+Donny Hurley Metrics 28 / 49
+
+
+
+Accuracy Score
+
+Accuracy score is a sometimes called a very harsh metric and it does not tell us how a
+classifier performs for particular classes.
+
+The number digit classifier has 10 possible classes, i.e. 0,1,2,3,4,5,6,7,8,9. Maybe we
+just care about the performance of the number 7.
+
+Also, is it over-predicting some of the classes? (Is it falsely identifying 1’s as 7, i.e. is it
+a false-positive for 7 and a false-negative for 1)
+
+Donny Hurley Metrics 29 / 49
+
+
+
+Precision/Recall
+
+For each category we can measure two important metrics, Precision and Recall
+
+Precision: how many selected were correct.
+Recall: how many correct were found? A Classification Report can be outputted from
+our test data
+
+1 from s k l e a r n . me t r i c s impor t c l a s s i f i c a t i o n r e p o r t
+2 p r i n t ( c l a s s i f i c a t i o n r e p o r t ( y v a l , y p r ed ) )
+3
+
+4 p r e c i s i o n r e c a l l f1=s c o r e suppo r t
+5
+
+6 0 1 .00 1 .00 1 .00 54
+7 1 0 .89 0 .94 0 .92 35
+8 2 0 .94 0 .89 0 .91 36
+9
+
+10 avg / t o t a l 0 .95 0 .95 0 .95 125
+
+Donny Hurley Metrics 30 / 49
+
+
+
+Precision/Recall
+
+1 p r e c i s i o n r e c a l l f1=s c o r e suppo r t
+2 0 1 .00 1 .00 1 .00 54
+3 1 0 .89 0 .94 0 .92 35
+4 2 0 .94 0 .89 0 .91 36
+
+The above is showing the performance for 3 categories (0, 1, 2). The support is the
+number of occurrences of each class in y true.
+
+Category 1 has precision 0.89. This means that 89% of items predicted to be in
+Category 1 were correct. The other 11% were incorrectly identified as Category 1
+(false-positive for category 1)
+
+Category 1 has recall 0.94. This means that 94% of the items that should’ve been
+predicted in Category 1 were found. The other 6% were incorrectly identified in some
+other category (false-negative for category 1)
+
+Donny Hurley Metrics 31 / 49
+
+
+
+Precision is defined as the number of relevant domains retrieved, divided by the
+total number of domains (in that category) retrieved.
+
+#relevant-retrieved
+Precision =
+
+#total-documents
+
+Recall is defined as the number of relevant domains retrieved divided by the total
+number of relevant domains (in that category).
+
+#relevant-retrieved
+Recall =
+
+#total-relevant
+
+sklearn says
+tp tp
+
+precision = recall =
+tp + fp tp + fn
+
+where tp is number of true positives, fp is number of false positives and fn is
+number of false negatives
+
+Donny Hurley Metrics 32 / 49
+
+
+
+Cancer Example
+
+Example
+Suppose we build a model for cancer diagnosis and we have a validation sample of 100
+patients. We have the following table describing the performance of our model (this is
+called a confusion matrix, I will come back to this):
+
+We can read precision from the columns.. Precision for Cancer Yes = 25
+25+5 = 0.83.
+
+Precision for Cancer No = 65
+65+5 = 0.928.
+
+We can read recall from the rows... Recall for Cancer Yes = 25
+25+5 = 0.83. Recall for
+
+Cancer No = 65
+65+5 = 0.928.
+
+Donny Hurley Metrics 33 / 49
+
+
+
+Accuracy Revisited
+
+Note: Accuracy works quite well when the class distribution is similar but very often
+our data is imbalanced (cancer analysis, we hopefully have many more patients without
+cancer than with - imbalanced set).
+
+TP + TN
+Accuracy =
+
+TP + FP + TN + FN
+Accuracy is used when the True Positives and True negatives are more important
+
+Example
+
+The accuracy in this case is = 90% which is a high enough number for the model to
+be considered as ’accurate’. However, there are 5 patients who actually have cancer
+and the model predicted that they don’t have it. Obviously, this is too high a cost.
+Our model should try to minimize these False Negatives.
+
+Donny Hurley Metrics 34 / 49
+
+
+
+F1-Score
+
+F1-score is a better metric when there are imbalanced classes.
+
+F1-score: The harmonic mean of Precision and Recall.
+F1-Score gives a better measure of the incorrectly classified cases than the Accuracy.
+
+IF we let P and R stand for precision and recall respectively then
+
+P.R
+F1 = 2
+
+P + R
+
+1 p r e c i s i o n r e c a l l f1=s c o r e suppo r t
+2 0 1 .00 1 .00 1 .00 54
+3 1 0 .89 0 .94 0 .92 35
+4 2 0 .94 0 .89 0 .91 36
+
+Donny Hurley Metrics 35 / 49
+
+
+
+Extreme Example
+
+Of all women who receive regular mammograms, about 10 percent will get called back
+for further testing and of those, only about 0.5 percent will be found to have cancer.
+So for the women that are called back 99.5% of them will not have cancer.So if my
+model is
+
+1 de f h a s c an c e r (X) :
+2 r e t u r n f a l s e
+
+Then my model will be 99.5% accurate for these women! But it misses all the ones
+that have cancer.
+
+Donny Hurley Metrics 36 / 49
+
+
+
+Confusion Matrix
+
+Another way of evaluating the the accuracy of a classification is to compute a confuse
+matrix.
+
+By definition a confusion matrix C is such that Ci ,j is equal to the number of
+observations known to be in group i but predicted to be in group j .
+
+The diagonals are therefore the ”correct” predictions, while the off diagonals is where
+something has been miscategorised
+
+2-class problems are a particular case
+
+event no-event
+event true positive false positive
+no-event false negative true negative
+
+Donny Hurley Metrics 37 / 49
+
+
+
+Confusion Matrix
+
+As an example in sklearn
+
+1 from s k l e a r n . me t r i c s impor t c o n f u s i o n ma t r i x
+2 >>> y t r u e = [ 2 , 0 , 2 , 2 , 0 , 1 ]
+3 >>> y p r ed = [ 0 , 0 , 2 , 2 , 0 , 2 ]
+4 >>> c o n f u s i o n ma t r i x ( y t r u e , y p r ed )
+5 a r r a y ( [ [ 2 , 0 , 0 ] ,
+6 [ 0 , 0 , 1 ] ,
+7 [ 1 , 0 , 2 ] ] )
+
+We can use confusion matrices to see where exactly our misclassifications are
+happening and if necessary tune our ML algorithm. Precision and Recall are read from
+a confusion matrix.
+
+Donny Hurley Metrics 38 / 49
+
+
+
+Colour Data Set
+black blue brown green grey orange pink purple red white yellow
+
+black 68 0 1 0 2 0 0 1 1 0 0
+blue 3 84 0 4 7 0 0 8 0 0 0
+brown 5 0 18 4 5 1 1 0 18 0 2
+green 4 4 3 135 8 0 0 0 0 0 1
+grey 4 4 0 7 62 1 1 2 3 0 0
+orange 0 0 1 2 0 16 2 0 7 0 2
+pink 0 0 0 0 0 0 41 15 6 0 0
+purple 5 5 0 1 3 0 2 103 5 0 0
+red 2 6 1 6 5 3 10 3 26 0 2
+white 2 0 1 0 4 0 2 0 0 0 0
+yellow 0 1 1 4 4 0 2 0 0 0 17
+
+We can read the precision for black off by the black column (predicted were correct).
+68 predicted were correct, while 68 + 3 + 5 + 4 + 4 + 0 + 0 + 5 + 2 + 2 + 0 = 93 were
+predicted in total to be black. So precision was 68
+
+93 = 0.7311.
+
+We can read the recall for purple by the purple row (correct were found).
+103 were found, while 5 + 5 + 0 + 1 + 3 + 0 + 2 + 103 + 5 + 0 + 0 = 124 should have
+been found in total. So recall for purple was 103
+
+124 = 0.83.
+Donny Hurley Metrics 39 / 49
+
+
+
+Optimising to these scores?
+
+Written a lot about how we want to get the best metrics: f1-score, accuracy etc.
+However, we can’t actually do this directly!
+
+Metrics on a dataset is what we care about (performance)
+
+We typically cannot directly optimize for the metrics
+
+Our loss/cost function should reflect the problem we are solving. We then hope it
+will yield models that will do well on our dataset
+
+Donny Hurley Metrics 40 / 49
+
+
+
+Feature Engineering
+
+Not surprisingly, the kind of X values we have for each training point have a huge
+effect on what we can learn/predict.
+
+The components of each X value are the features.
+
+A combination of understanding our data and the model can help us be much
+more successful.
+
+Donny Hurley Metrics 41 / 49
+
+
+
+Feature Engineering
+
+We have seen:
+
+Just use the original features.
+
+Calculate powers of the original features (PolynomialFeatures).
+
+Scale features to tidy their min/max (MinMaxScaler) or mean/?stddev
+(StandardScaler).
+
+Calculate anything else we want/need (FunctionTransformer).
+
+Donny Hurley Metrics 42 / 49
+
+
+
+Feature Engineering
+We can design whatever features we think will give the model something to work with.
+As an example:
+
+Donny Hurley Metrics 43 / 49
+
+
+
+Feature Engineering
+
+With that picture and a kNN model:
+
+1 model = KNe i g h b o r s C l a s s i f i e r (7 )
+2 model . f i t ( X t r a i n , y t r a i n )
+3 p r i n t ( model . s c o r e ( X va l , y v a l ) )
+4
+
+5 0.805309734513
+
+Donny Hurley Metrics 44 / 49
+
+
+
+Feature Engineering
+It doesn’t have enough training data to really capture what’s going on, and overfits the
+training data.
+
+Donny Hurley Metrics 45 / 49
+
+
+
+Feature Engineering
+
+Maybe if it has a feature of how far away the point is from (0, 0) it would improve the
+results.
+Add a transformer:
+
+1 de f a d d r a d i u s (X) :
+2 X0 = X [ : , 0 ]
+3 X1 = X [ : , 1 ]
+4 R = np . l i n a l g . norm (X, a x i s =1) # Euc l i d e an norm
+5 r e t u r n np . s t a c k ( (X0 , X1 , R) , a x i s =1)
+6
+
+7 model = mak e p i p e l i n e (
+8 Func t i onTrans fo rme r ( a d d r a d i u s ) ,
+9 GaussianNB ( ) )
+
+10 model . f i t ( X t r a i n , y t r a i n )
+11 p r i n t ( model . s c o r e ( X va l , y v a l ) )
+12
+
+13 0.893805309735
+
+Donny Hurley Metrics 46 / 49
+
+
+
+Feature Engineering
+The model does better with the right features
+
+Donny Hurley Metrics 47 / 49
+
+
+
+Feature Engineering
+
+Other problems that may arise is having
+
+More features than train+test data
+
+Too large of a data set (processor/memory)
+
+Sometimes we have to group common features together
+
+Example
+
+We observe multiple weather values (rainfall, temperature) every day. This gives us
+365 points (times the number of weather features) for one year. It may make sense to
+average these values for each month and cut down the number of points to 12 for a
+year (times the number of weather features). This comes from knowing the data.
+We could also average over each day in a month, 1st of month, 2nd of month etc. so
+down to 31 points....however this would make no sense for grouping together.
+
+Donny Hurley Metrics 48 / 49
+
+
+
+High-Dimensional Data kNN (Source Wikipedia)
+For high-dimensional data (e.g., with number of dimensions more than 10)
+dimension reduction is usually performed prior to applying the k-NN algorithm in
+order to avoid the effects of the curse of dimensionality.
+The curse of dimensionality in the k-NN context basically means that Euclidean
+distance is unhelpful in high dimensions because all vectors are almost equidistant
+to the search query vector.
+Feature extraction and dimension reduction can be combined in one step using
+principal component analysis (PCA), linear discriminant analysis (LDA), or
+canonical correlation analysis (CCA) techniques as a pre-processing step, followed
+by clustering by k-NN on feature vectors in reduced-dimension space. This process
+is also called low-dimensional embedding.
+For very-high-dimensional datasets (e.g. when performing a similarity search on
+live video streams, DNA data or high-dimensional time series) running a fast
+approximate k-NN search using locality sensitive hashing, ”random projections”,
+”sketches” or other high-dimensional similarity search techniques from the VLDB
+toolbox might be the only feasible option.
+
+Donny Hurley Metrics 49 / 49
