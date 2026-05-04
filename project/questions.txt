@@ -1,0 +1,7 @@
+what is block?
+max_pooling2d_2 → (None, 64, 64, 32) — 0 params why do we do this
+what is spatial size
+explain this `64 × (3×3×32 + 1) = 64 × 289 = 18,496`
+what is dense layer
+what is model predict and model fit and model evaluate
+what is fine tuning

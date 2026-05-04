@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/mcdon/Documents/College/Watchtower/api/redis/**)",
+      "Read(//c/Users/mcdon/Documents/College/Watchtower/api/**)",
+      "Read(//c/Users/mcdon/Documents/College/Watchtower/web/src/**)",
+      "Read(//c/Users/mcdon/Documents/College/Watchtower/web/public/**)",
+      "Bash(python3:*)",
+      "Bash(nvidia-smi)",
+      "Bash(go mod:*)",
+      "Bash(go build:*)",
+      "Bash(sc query:*)",
+      "Bash(where mysql:*)",
+      "Bash(powershell -Command \"Get-Service *mysql*\")",
+      "Read(//c/ProgramData/MySQL/MySQL Server 8.0/**)",
+      "Read(//c/ProgramData/MySQL/**)",
+      "Bash(\"C:/Program Files/MySQL/MySQL Server 8.0/bin/mysqld.exe\" --initialize-insecure --console)",
+      "Read(//c/Program Files/MySQL/MySQL Server 8.0/**)",
+      "Read(//c/Program Files/MySQL/**)",
+      "Bash(go get:*)",
+      "Bash(ls \"C:\\\\Users\\\\mcdon\\\\Documents\\\\College\\\\FYP Dissertation\"/*.tex)",
+      "Bash(npm install:*)",
+      "Bash(node chart.js)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\mcdon\\Documents\\College\\Watchtower\\api\\redis",
+      "C:\\Users\\mcdon\\Documents\\College\\Watchtower\\web\\src",
+      "C:\\Users\\mcdon\\Documents\\College\\Watchtower\\api\\routes",
+      "C:\\Users\\mcdon\\Documents\\College\\Watchtower\\api"
+    ]
+  }
+}
