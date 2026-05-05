@@ -1,0 +1,10 @@
+// Model Evolution
+digraph {
+	nodesep=0.5 rankdir=TB ranksep=0.7
+	node [fillcolor="#f9f9f9" fontname=Arial shape=box style="rounded,filled"]
+	model_0 [label=<<b>Model 1 (Baseline)</b><br/><font color='#2a9d8f'>Val Acc: 5.20%</font><br/><font color='#e76f51'>Val Loss: 2.9450</font><hr/>• Simple CNN<br/>• 1 Conv Layer<br/>• No Dropout<br/>• LR: 0.001>]
+	model_1 [label=<<b>Model 3 (Deeper)</b><br/><font color='#2a9d8f'>Val Acc: 32.00%</font><br/><font color='#e76f51'>Val Loss: 2.2150</font><hr/>• 3 Blocks<br/>• 6 Conv Layers<br/>• Dropout 0.5<br/>• LR: 0.0001<br/>• Batch Norm>]
+	model_0 -> model_1 [label=" Improved Architecture " fontname="Arial italic" fontsize=10]
+	model_2 [label=<<b>Model 4 (Augmented)</b><br/><font color='#2a9d8f'>Val Acc: 40.20%</font><br/><font color='#e76f51'>Val Loss: 2.2500</font><hr/>• V3 + Augmentation<br/>• RandomFlip/Zoom<br/>• LR: 0.001<br/>• 40 Epochs>]
+	model_1 -> model_2 [label=" Improved Architecture " fontname="Arial italic" fontsize=10]
+}
