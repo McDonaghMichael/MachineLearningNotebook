@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.5.5)  5 MAY 2026 17:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.27)  6 MAY 2026 15:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -6,9 +6,9 @@ entering extended mode
 (./imvip_template.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
-(/usr/share/texmf-dist/tex/latex/base/article.cls
+(/usr/local/texlive/2026/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
-(/usr/share/texmf-dist/tex/latex/base/size11.clo
+(/usr/local/texlive/2026/texmf-dist/tex/latex/base/size11.clo
 File: size11.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 )
 \c@part=\count275
@@ -23,10 +23,10 @@ File: size11.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 \belowcaptionskip=\skip50
 \bibindent=\dimen148
 )
-(/usr/share/texmf-dist/tex/latex/fourier/fourier.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/fourier/fourier.sty
 Package: fourier 2024/09/08 2.4 fourier-GUTenberg package
 
-(/usr/share/texmf-dist/tex/generic/iftex/iftex.sty
+(/usr/local/texlive/2026/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2024/12/12 v1.0g TeX engine tests
 )
 Now handling font encoding FML ...
@@ -36,18 +36,18 @@ Now handling font encoding FMS ...
 Now handling font encoding FMX ...
 ... no UTF-8 mapping file for font encoding FMX
 
-(/usr/share/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
 LaTeX Font Info:    Trying to load font information for T1+futs on input line 1
 16.
 
-(/usr/share/texmf-dist/tex/latex/fourier/t1futs.fd
+(/usr/local/texlive/2026/texmf-dist/tex/latex/fourier/t1futs.fd
 File: t1futs.fd 2004/03/02 Fontinst v1.926 font definitions for T1/futs.
 ))
-(/usr/share/texmf-dist/tex/latex/base/textcomp.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
 )
-(/usr/share/texmf-dist/tex/latex/fourier/fourier-orns.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/fourier/fourier-orns.sty
 Package: fourier-orns 2024/09/08 2.4 fourier-ornaments package
 )
 LaTeX Font Info:    Redeclaring symbol font `operators' on input line 64.
@@ -146,32 +146,32 @@ LaTeX Font Info:    Redeclaring math accent \dot on input line 269.
 LaTeX Font Info:    Redeclaring math accent \mathring on input line 270.
 \symUfutm=\mathgroup5
 )
-(/usr/share/texmf-dist/tex/latex/graphics/color.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2025/01/14 v1.3e Standard LaTeX Color (DPC)
 
-(/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 149.
 
-(/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 )
-(/usr/share/texmf-dist/tex/latex/graphics/mathcolor.ltx))
-(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
 )
-(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texmf-dist/tex/latex/graphics/trig.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
 )
-(/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+(/usr/local/texlive/2026/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 106.
@@ -179,11 +179,11 @@ Package graphics Info: Driver file: pdftex.def on input line 106.
 \Gin@req@height=\dimen149
 \Gin@req@width=\dimen150
 )
-(/usr/share/texmf-dist/tex/latex/url/url.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-(/usr/share/texmf-dist/tex/latex/preprint/authblk.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/preprint/authblk.sty
 Package: authblk 2001/02/27 1.3 (PWD)
 \affilsep=\skip51
 \@affilsep=\skip52
@@ -191,24 +191,24 @@ Package: authblk 2001/02/27 1.3 (PWD)
 \c@authors=\count284
 \c@affil=\count285
 )
-(/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2025/07/09 v2.17z AMS math features
 \@mathmargin=\skip53
 
 For additional information on amsmath, use the `?' option.
-(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2024/11/17 v2.01 AMS text
 
-(/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks18
 \ex@=\dimen151
 ))
-(/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen152
 )
-(/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
 \inf@bad=\count286
@@ -259,7 +259,7 @@ LaTeX Info: Redefining \Relbar on input line 970.
 LaTeX Info: Redefining \[ on input line 2950.
 LaTeX Info: Redefining \] on input line 2951.
 )
-(/usr/share/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/wrapfig/wrapfig.sty
 \wrapoverhang=\dimen160
 \WF@size=\dimen161
 \c@WF@wrappedlines=\count298
@@ -267,22 +267,22 @@ LaTeX Info: Redefining \] on input line 2951.
 \WF@everypar=\toks23
 Package: wrapfig 2003/01/31  v 3.6
 )
-(/usr/share/texmf-dist/tex/latex/tools/xspace.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/tools/xspace.sty
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 )
-(/usr/share/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
 )
-(/usr/share/texmf-dist/tex/latex/psnfss/times.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/times.sty
 Package: times 2020/03/25 PSNFSS-v9.3 (SPQR) 
 )
 LaTeX Font Info:    Trying to load font information for T1+ptm on input line 35
 .
 
-(/usr/share/texmf-dist/tex/latex/psnfss/t1ptm.fd
+(/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
-(/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+(/usr/local/texlive/2026/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count299
 )
@@ -306,7 +306,8 @@ LaTeX Font Info:    ... okay on input line 35.
 LaTeX Font Info:    Checking defaults for FML/futm/m/it on input line 35.
 LaTeX Font Info:    Trying to load font information for FML+futm on input line 
 35.
- (/usr/share/texmf-dist/tex/latex/fourier/fmlfutm.fd
+
+(/usr/local/texlive/2026/texmf-dist/tex/latex/fourier/fmlfutm.fd
 File: fmlfutm.fd 2004/10/30 Fontinst v1.926 font definitions for FML/futm.
 )
 LaTeX Font Info:    ... okay on input line 35.
@@ -314,7 +315,7 @@ LaTeX Font Info:    Checking defaults for FMS/futm/m/n on input line 35.
 LaTeX Font Info:    Trying to load font information for FMS+futm on input line 
 35.
 
-(/usr/share/texmf-dist/tex/latex/fourier/fmsfutm.fd
+(/usr/local/texlive/2026/texmf-dist/tex/latex/fourier/fmsfutm.fd
 File: fmsfutm.fd 2004/10/30 Fontinst v1.926 font definitions for FMS/futm.
 )
 LaTeX Font Info:    ... okay on input line 35.
@@ -322,12 +323,12 @@ LaTeX Font Info:    Checking defaults for FMX/futm/m/n on input line 35.
 LaTeX Font Info:    Trying to load font information for FMX+futm on input line 
 35.
 
-(/usr/share/texmf-dist/tex/latex/fourier/fmxfutm.fd
+(/usr/local/texlive/2026/texmf-dist/tex/latex/fourier/fmxfutm.fd
 File: fmxfutm.fd futm-extension
 )
 LaTeX Font Info:    ... okay on input line 35.
 
-(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(/usr/local/texlive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count300
 \scratchdimen=\dimen162
@@ -340,12 +341,12 @@ LaTeX Font Info:    ... okay on input line 35.
 \MPnumerator=\count304
 \makeMPintoPDFobject=\count305
 \everyMPtoPDFconversion=\toks25
-) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 
-(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+(/usr/local/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
@@ -365,68 +366,72 @@ l.59 ...width=0.4\textwidth]{DIT_Grangegorman.png}
 ? 
 LaTeX Font Info:    Trying to load font information for T1+pcr on input line 59
 .
-(/usr/share/texmf-dist/tex/latex/psnfss/t1pcr.fd
+(/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts
-/enc/dvips/base/8r.enc}]
-[2]
+{/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
+al/texlive/2026/texmf-dist/fonts/enc/dvips/base/8r.enc}]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 8
+0.
+
+(/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
 LaTeX Font Info:    Trying to load font information for FML+futmi on input line
- 103.
- (/usr/share/texmf-dist/tex/latex/fourier/fmlfutmi.fd
+ 87.
+
+(/usr/local/texlive/2026/texmf-dist/tex/latex/fourier/fmlfutmi.fd
 File: fmlfutmi.fd 2004/10/30 Fontinst v1.926 font definitions for FML/futmi.
 )
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 10.07397pt on input line 103.
+(Font)              scaled to size 10.07397pt on input line 87.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 7.63599pt on input line 103.
+(Font)              scaled to size 7.63599pt on input line 87.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 5.51999pt on input line 103.
+(Font)              scaled to size 5.51999pt on input line 87.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 10.07397pt on input line 103.
+(Font)              scaled to size 10.07397pt on input line 87.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 7.63599pt on input line 103.
+(Font)              scaled to size 7.63599pt on input line 87.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 5.51999pt on input line 103.
-<images/compare-cnn-scratch.png, id=13, 1595.9625pt x 594.22pt>
+(Font)              scaled to size 5.51999pt on input line 87.
+ [2]
+<images/compare-cnn-scratch.png, id=14, 1595.9625pt x 594.22pt>
 File: images/compare-cnn-scratch.png Graphic file (type png)
 <use images/compare-cnn-scratch.png>
-Package pdftex.def Info: images/compare-cnn-scratch.png  used on input line 111
+Package pdftex.def Info: images/compare-cnn-scratch.png  used on input line 114
 .
 (pdftex.def)             Requested size: 386.95894pt x 144.0755pt.
 
 ! Undefined control sequence.
-l.121 \toprule
+l.124 \toprule
               
 ? 
 ! Undefined control sequence.
 <recently read> \midrule 
                          
-l.122 ...} & \textbf{Improvement (\%)} \\ \midrule
+l.125 ...} & \textbf{Improvement (\%)} \\ \midrule
                                                   
 ? 
 ! Undefined control sequence.
 <recently read> \bottomrule 
                             
-l.130 ... 45.76                     \\ \bottomrule
+l.133 ... 45.76                     \\ \bottomrule
                                                   
 ? 
+[3 <./images/compare-cnn-scratch.png (PNG copy)>]
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[3 <./images/compare-cnn-scratch.png (PNG copy)>] [4]
-
-LaTeX Warning: Citation `hartley' on page 5 undefined on input line 147.
+LaTeX Warning: Citation `hartley' on page 4 undefined on input line 150.
 
 
-LaTeX Warning: Citation `jain' on page 5 undefined on input line 147.
+LaTeX Warning: Citation `jain' on page 4 undefined on input line 150.
 
 
-LaTeX Warning: Citation `goodfellow' on page 5 undefined on input line 147.
+LaTeX Warning: Citation `goodfellow' on page 4 undefined on input line 150.
 
 No file imvip_template.bbl.
-[5] (./imvip_template.aux)
+[4] (./imvip_template.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
@@ -437,22 +442,23 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 3271 strings out of 469515
- 47725 string characters out of 5470808
- 448843 words of memory out of 5000000
- 31860 multiletter control sequences out of 15000+600000
- 681371 words of font info for 89 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
+ 3299 strings out of 467525
+ 49357 string characters out of 5418982
+ 453011 words of memory out of 5000000
+ 32141 multiletter control sequences out of 15000+600000
+ 681685 words of font info for 90 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
  57i,8n,65p,927b,337s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texmf-dist/fonts/type1/public/fourier/fourier-ms.pfb></usr/share/
-texmf-dist/fonts/type1/adobe/utopia/putr8a.pfb></usr/share/texmf-dist/fonts/typ
-e1/urw/courier/ucrr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.p
-fb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-di
-st/fonts/type1/urw/times/utmri8a.pfb>
-Output written on imvip_template.pdf (5 pages, 329639 bytes).
+</usr/local/texlive/2026/texmf-dist/fonts/type1/public/fourier/fourier-ms.pfb
+></usr/local/texlive/2026/texmf-dist/fonts/type1/adobe/utopia/putr8a.pfb></usr/
+local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/te
+xlive/2026/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026
+/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dis
+t/fonts/type1/urw/times/utmri8a.pfb>
+Output written on imvip_template.pdf (4 pages, 333206 bytes).
 PDF statistics:
- 52 PDF objects out of 1000 (max. 8388607)
- 31 compressed objects within 1 object stream
+ 49 PDF objects out of 1000 (max. 8388607)
+ 29 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

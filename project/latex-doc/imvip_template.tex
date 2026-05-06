@@ -63,25 +63,28 @@ This study explores the development of a deep learning system to classify 19 dif
   \vspace{-0pt}
 \end{wrapfigure}
 %%%%%%%%%%%%%%%%%%%%%%
-Initial attempts with a custom model resulted in clear underfitting, where the accuracy was no better than random guessing at 5.2\%. By improving the model structure, specifically by using double convolutional blocks, increasing the number of filters to 128, adding Dropout Layers to prevent over-reliance on specific features, the custom model eventually achieved a stable validation accuracy of 65\%. To try and improve further, a two-phase transfer learning strategy was used. THis involved an initial phase where the base model was frozen, followed by a fine-tuning phase to adapt the weights to this specific food dataset.
+Initial attempts with a custom model resulted in clear underfitting, where the accuracy was no better than random guessing at 5.2\%. By improving the model structure, specifically by using double convolutional blocks, increasing the number of filters to 128, adding Dropout Layers to prevent over-reliance on specific features, the custom model eventually achieved a stable validation accuracy of 65\%. To try and improve further, a two-phase transfer learning strategy was used. This involved an initial phase where the base model was frozen, followed by a fine-tuning phase to adapt the weights to this specific food dataset.
 %%
 
 \section{Data and Pre-Processing}
-Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
+The first thing I did was to initialise any of the variables I will be using that will detail how I will be processing my data. The seed that I set is \texttt{421944} for my student number, this will allow for reproducability of my results. I then have the batch sizes for my data in batches of \texttt{32}, dealing with image sizes of \texttt{128x128} and \texttt{64x64}. Computational tasks were performed locally using an NVIDIA GeForce RTX 4060 GPU, with a verification step included in the script to confirm CUDA acceleration was active.
 
 \subsection{Dataset Description}
-
-Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
-
-\subsubsection{Exploratory Analysis}
-
-Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
-
+The image dataset being used is a subset of the Food 101 dataset containing 19 folders named after the type of food contained in its images. The images in use are \texttt{512x512}, but will be rescaled across \texttt{128x128} and \texttt{64x64}, grayscaled and/or augmented for the purpose of exploring different hyperparameters and comparing models.
 
 \subsubsection{Preprocessing and Splits}
 
-Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
+The dataset contained images with 3 colour channels (RGB), since that would involve numbers ranging from 0.0 to 255, it was important the training data was normalised. Normalisation will help with data moving between layers, and help prevent vanishing/exploding gradients. The training split that was chosen was to split the Training Set at 30\% (13,312 images), Validation 10\% (1,888 images), for tuning the hyperparameters and the final Test Set at 20\% (3,840 images). The final Test Set is reserved to the final evaluation of the model.
 
+\begin{itemize}
+  \item Training Set at 30\% (13,312 images) - Used for model weight updates
+  \item Validation 10\% (1,888 images) - Hyperparameter Tuning
+  \item Test Set at 20\% (3,840 images) - Reserved to the final evaluation of the model.
+\end{itemize}
+
+\subsubsection{Exploratory Analysis}
+
+An initial audit of the dataset confirmed it is perfectly balanced. Each of the 19 classes contains exactly $1,000$ images, totaling $19,000$ samples with 3 channels and 128x128 in size. This eliminates the risk of class imbalance, where a model might become biased toward a majority class to artificially inflate accuracy. In such a case where there was an imbalance, class weights can be introduced to give equal importance to all classes.
 
 %%
 \subsection{Experiments}
