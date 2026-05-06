@@ -1,0 +1,11 @@
+\begin{thebibliography}{1}
+
+\bibitem{tf_mobilenetv2}
+{TensorFlow Authors}.
+\newblock tf.keras.applications.mobilenetv2.
+\newblock
+  \url{https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV2},
+  2024.
+\newblock Accessed: 2024-05-20.
+
+\end{thebibliography}
