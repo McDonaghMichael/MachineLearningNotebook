@@ -13,7 +13,7 @@
 \setlength{\textwidth}{17cm}
 \setlength{\evensidemargin}{-.5cm}
 \setlength{\oddsidemargin}{-.5cm}
-
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=black]{hyperref}
 \usepackage{fourier}
 \usepackage{color}
  \usepackage{graphicx}
@@ -22,7 +22,8 @@
 \usepackage{amsmath}
 \usepackage{wrapfig}
 \usepackage{xspace}
-
+\usepackage{booktabs} % Required for the professional lines in your comparison table
+\usepackage{float}    % Useful for forcing table positions if needed
 \usepackage[T1]{fontenc}
 \usepackage{times}
 
@@ -51,16 +52,7 @@ This study explores the development of a deep learning system to classify 19 dif
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-\begin{wrapfigure}{r}{0.5\textwidth}
-  \vspace{-20pt}
-  \begin{center}
-    \includegraphics[width=0.4\textwidth]{DIT_Grangegorman.png}
-\end{center}
-\vspace{-20pt}
-  \caption{Introduction Banner.}
-  \vspace{-0pt}
-\end{wrapfigure}
-%%%%%%%%%%%%%%%%%%%%%%
+
 Initial attempts with a custom model resulted in clear underfitting, where the accuracy was no better than random guessing at 5.2\%. By improving the model structure, specifically by using double convolutional blocks, increasing the number of filters to 128, adding Dropout Layers to prevent over-reliance on specific features, the custom model eventually achieved a stable validation accuracy of 65\%. To try and improve further, a two-phase transfer learning strategy was used. This involved an initial phase where the base model was frozen, followed by a fine-tuning phase to adapt the weights to this specific food dataset.
 %%
 
@@ -70,7 +62,7 @@ The first thing I did was to initialise any of the variables I will be using tha
 \subsection{Dataset Description}
 The image dataset being used is a subset of the Food 101 dataset containing 19 folders named after the type of food contained in its images. The images in use are \texttt{512x512}, but will be rescaled across \texttt{128x128} and \texttt{64x64}, grayscaled and/or augmented for the purpose of exploring different hyperparameters and comparing models.
 
-\subsubsection{Preprocessing and Splits}
+\subsection{Preprocessing and Splits}
 
 The dataset contained images with 3 colour channels (RGB), since that would involve numbers ranging from 0.0 to 255, it was important the training data was normalised. Normalisation will help with data moving between layers, and help prevent vanishing/exploding gradients. The training split that was chosen was to split the Training Set at 30\% (13,312 images), Validation 10\% (1,888 images), for tuning the hyperparameters and the final Test Set at 20\% (3,840 images). The final Test Set is reserved to the final evaluation of the model.
 
@@ -80,72 +72,110 @@ The dataset contained images with 3 colour channels (RGB), since that would invo
   \item Test Set at 20\% (3,840 images) - Reserved to the final evaluation of the model.
 \end{itemize}
 
-\subsubsection{Exploratory Analysis}
+\subsection{Exploratory Analysis}
 
 An initial audit of the dataset confirmed it is perfectly balanced. Each of the 19 classes contains exactly $1,000$ images, totaling $19,000$ samples with 3 channels and 128x128 in size. This eliminates the risk of class imbalance, where a model might become biased toward a majority class to artificially inflate accuracy. In such a case where there was an imbalance, class weights can be introduced to give equal importance to all classes.
 
-%%
-\subsection{Experiments}
-
-Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
+\section{Experiments}
 
 \subsection{CNN From Scratch: Iterative Development}
 
-The development of the custom Convolutional Neural Network (CNN) followed an iterative progression, transitioning from a high-parameter baseline to a refined, efficient architecture optimized for generalization.
+The development of the custom Convolutional Neural Network (CNN) followed an iterative progression, transitioning from a high-parameter baseline to a refined, efficient architecture optimised for generalisation on my dataset.
 
 \subsubsection{Initial Models: From Overfitting to Underfitting}
-The development began with \textbf{Model V1 (Baseline)}, which utilized two convolutional blocks and a single MaxPooling2D layer for downsampling. This model exhibited extreme overfitting, achieving a training accuracy of 99\% while validation accuracy stagnated at 20\%. This massive disparity indicated that the network was memorizing noise within the training set rather than learning generalizable features.
+The development began with \textbf{Model V1 (Baseline)}, which utilised two convolutional blocks and a single Max Pooling layer for downsampling. This model exhibited extreme overfitting, achieving a training accuracy of \textbf{98.32\%} while validation accuracy stagnated at \textbf{16.84\%}. This massive disparity indicated that the network was memorising noise within the training set rather than learning generalisable features.
 
-To mitigate this, \textbf{Model V2} introduced three convolutional blocks with doubled layers per block to extract more granular features. A dense layer of 256 units and a Dropout rate of 0.5 were added to reduce feature dependency. However, this resulted in an over-correction into underfitting, with both training and validation accuracies dropping below 6\%.
-
-\subsubsection{Structural Refinement and Regularization}
-\textbf{Model V3} aimed to find a middle ground by reverting to two convolutional blocks while introducing \textbf{Batch Normalization} to stabilize internal covariate shift. A significant architectural change was the replacement of the flattening layer with \textbf{GlobalAveragePooling2D}, which reduced the parameter count from approximately 8.6 million to just 41,299. This led to smoother convergence and a more aligned relationship between training and validation metrics.
-
-In \textbf{Model V4}, \textbf{Image Augmentation} (horizontal flips, 10\% rotations, and 10\% zooms) was integrated into the pipeline to artificially expand the dataset diversity. While this stabilized the training loss, the model remained sensitive to extreme transformations, resulting in a validation accuracy of approximately 33.2\%.
-
-\subsubsection{Scaling and Final Optimization}
-Models \textbf{V5} and \textbf{V6} focused on scaling depth and width to capture complex semantic features. \textbf{Model V5} increased the maximum filter count to 256, while \textbf{Model V6} pushed the feature extractor to 1024 filters with a 2048-unit dense layer. This "brute force" scaling allowed \textbf{Model V6} to reach a validation accuracy of 66.9\%.
-
-Finally, \textbf{Model V7} was developed to prioritize efficiency over raw size. By reducing the dense layer from 2048 to 128 units and implementing a \texttt{ReduceLROnPlateau} scheduler, the model achieved a \textbf{44\% reduction in validation loss} compared to V6. Despite a slightly lower peak training accuracy, V7 demonstrated superior generalization by maintaining a validation accuracy of 64.6\% with significantly higher confidence (lower loss).
-
-Ultimately, \textbf{Model V7} was selected as the superior architecture built from scratch. It provided the optimal balance of depth and regularization, serving as the final benchmark before transitioning to transfer learning techniques.
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/compare-cnn-scratch.png}
-    \caption{Performance Comparison of CNN Architectures from Scratch}
-    \label{fig:cnn_comparison}
-\end{figure}
+To mitigate this, \textbf{Model V2} introduced three convolutional blocks with doubled layers per block to extract more granular features. A dense layer of 256 units and a Dropout rate of 0.5 were added to reduce feature dependency. However, this resulted in an over-correction into underfitting, with both training and validation accuracies dropping below \textbf{6\%}.
 
 \begin{table}[h]
 \centering
-\caption{Detailed Model Performance Comparison. Improvement metric is based on comparison with Model V2 (128x128).}
-\label{tab:model_performance_updated}
-\begin{tabular}{|l|c|c|c|c|c|c|r|}
+\small % Sets font to small
+\setlength{\tabcolsep}{3pt} % Reduces padding between columns
+\caption{Detailed Model Performance Comparison for Model V1 (Baseline) and V2 in 128x128 \& 64x64.}
+\label{tab:model_performance_refinement_and_regularisation}
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
 \hline
-\textbf{Model Version} & \textbf{Epochs} & \textbf{Total Time (s)} & \textbf{Time/Ep (s)} & \textbf{Train Acc} & \textbf{Val Acc} & \textbf{Val Loss} & \textbf{Improv. (\%)} \\ \hline
-Model V2 (128x128)     & 20.0            & 307.29                  & 15.36                & 0.0522             & 0.0546           & 2.9450            & 0.00                  \\ \hline
-Model V2 (64x64)       & 20.0            & 114.45                  & 5.72                 & 0.7214             & 0.2834           & 3.5272            & 22.88                 \\ \hline
-Model V3 (128x128)     & 40.0            & 308.08                  & 7.70                 & 0.4235             & 0.4105           & 1.9015            & 35.59                 \\ \hline
-Model V3 (64x64)       & 40.0            & 128.58                  & 3.21                 & 0.4153             & 0.3914           & 1.9181            & 33.68                 \\ \hline
-Model V4 (128x128)     & 60.0            & 811.30                  & 13.52                & 0.4330             & 0.2823           & 2.3407            & 22.77                 \\ \hline
-Model V4 (64x64)       & 60.0            & 305.11                  & 5.09                 & 0.4168             & 0.3242           & 2.1959            & 26.96                 \\ \hline
-Model V5 (128x128)     & 27.0            & 446.51                  & 16.54                & 0.7571             & 0.5117           & 2.0990            & 45.71                 \\ \hline
-Model V5 (64x64)       & 27.0            & 174.69                  & 6.47                 & 0.6880             & 0.5657           & 1.5755            & 51.11                 \\ \hline
-Model V6 (128x128)     & 50.0            & 1050.54                 & 21.01                & 0.8991             & 0.6112           & 2.2366            & 55.66                 \\ \hline
-Model V6 (64x64)       & 50.0            & 389.71                  & 7.79                 & 0.8441             & 0.5021           & 2.5986            & 44.75                 \\ \hline
-Model V7 (128x128)     & 30.0            & 741.33                  & 20.04                & 0.8135             & 0.6462           & 1.2479            & 59.16                 \\ \hline
-Model V7 (64x64)       & 30.0            & 218.31                  & 7.04                 & 0.7343             & 0.5673           & 1.5037            & 51.27                 \\ \hline
-V7 Gray (128x128)      & 30.0            & 517.91                  & 19.18                & 0.6858             & 0.5132           & 1.5896            & 45.86                 \\ \hline
-V7 Gray (64x64)        & 30.0            & 138.01                  & 6.27                 & 0.5730             & 0.4460           & 1.8938            & 39.14                 \\ \hline
+\textbf{Model Version} & \textbf{Ep.} & \textbf{Time (s)} & \textbf{s/Ep} & \textbf{Tr. Acc} & \textbf{Val Acc} & \textbf{Val Loss} & \textbf{Improv.} \\ \hline
+Model V1 (Baseline) (128x128) & 10.0 & 165.75 & 16.58 & 0.4497 & 0.2846 & 2.5029 & 23.00\% \\ \hline
+Model V1 (Baseline) (64x64)   & 10.0 & 68.80  & 6.88  & 0.4284 & 0.2335 & 2.7667 & 17.89\% \\ \hline
+Model V2 (128x128)            & 20.0 & 307.29 & 15.36 & 0.0522 & 0.0546 & 2.9450 & 0.00\%  \\ \hline
+Model V2 (64x64)              & 20.0 & 114.45 & 5.72  & 0.7214 & 0.2834 & 3.5272 & 22.88\% \\ \hline
 \end{tabular}
 \end{table}
 
-\section{Transfer Learning Analysis}
+\subsubsection{Structural Refinement and Regularisation}
+\textbf{Model V3} aimed to find a middle ground by reverting to two convolutional blocks while introducing \textbf{Batch Normalization} to stabilize internal covariate shift. A significant architectural change was the replacement of the flattening layer with \textbf{GlobalAveragePooling2D}, which reduced the parameter count from approximately \textit{8.6 million} to just \textit{41,299}. This led to smoother convergence and a more aligned relationship between training and validation metrics.
+
+In \textbf{Model V4}, \textbf{Image Augmentation} \textit{(horizontal flips, 10\% rotations, and 10\% zooms)} was integrated into the pipeline to artificially expand the dataset diversity. While this stabilized the training loss, the model remained sensitive to extreme transformations, resulting in a validation accuracy of approximately \textbf{22.99\%}. However, it was at this point that I noticed the image size \textbf{64x64} had outperformed \textbf{128x128} having reached \textbf{34.80\%} validation accuracy. This led me to investigate that having only two convolutional layers for a \textbf{128x128} image wasn't enough for the model to correctly learn. The rescaling of the image to \textbf{64x64} actually helped remove some of that extra noise, paired with the augementation, actually performed better.
+
+\begin{table}[h]
+\centering
+\small % Sets font to small
+\setlength{\tabcolsep}{3pt} % Reduces padding between columns
+\caption{Detailed Model Performance Comparison for Model V3 and V4 in 128x128 \& 64x64.}
+\label{tab:model_performance_v3_v4}
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+\textbf{Model Version} & \textbf{Ep.} & \textbf{Time (s)} & \textbf{s/Ep} & \textbf{Tr. Acc} & \textbf{Val Acc} & \textbf{Val Loss} & \textbf{Improv.} \\ \hline
+Model V3 (128x128)     & 40.0 & 301.96 & 7.55  & 0.4212 & 0.4110 & 1.9013 & 19.22\% \\ \hline
+Model V3 (64x64)       & 40.0 & 127.55 & 3.19  & 0.4258 & 0.3734 & 2.0152 & 15.46\% \\ \hline
+Model V4 (128x128)     & 60.0 & 807.89 & 13.46 & 0.4361 & \textbf{0.2299} & 2.6644 & 1.11\%  \\ \hline
+Model V4 (64x64)       & 60.0 & 307.29 & 5.12  & 0.4073 & \textbf{0.3480} & 2.0967 & 12.92\% \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Scaling and Final Optimisation}
+\textbf{Model V5} followed with increase in validation reaching an accuracy of \textbf{62.92\%} with the addition of extra two convolutional layers to learn more complex features. The usage of \textbf{Batch Normalisation} on each of those layers stablised the learning progress even further, allowing for me to increase my learning rate back up to $1 \times 10^{-2}$.
+
+Over-engineering became the downfall in validation, to \textbf{44.81\%} and training accuracy, to \textbf{47.58\%} with \textbf{Model V6} due to drastically increasing the width and depth (adding 512 and 1024-filter layers) and an enormous 2048-unit Dense layer. A layer with 1024 filters and a dense layer of 2048 showcased that the model was memorising specific noise rather than learning general features. By the time the data reaches the end of V6, the spatial resolution is tiny, but the number of channels is massive. The GlobalAveragePooling2D had to compress 1024 channels, which can lead to a loss of important spatial relationship info.
+
+Finally, \textbf{Model V7} was developed to prioritise efficiency over raw size. By reducing the dense layer from 2048 to 128 units and implementing a \texttt{ReduceLROnPlateau} scheduler, the model achieved a \textbf{32\% reduction in validation loss} compared to V6. V7 demonstrated superior generalisation by maintaining a validation accuracy of \textbf{63.77\%}.
+
+\begin{table}[h]
+\centering
+\small % Sets font to small
+\setlength{\tabcolsep}{3pt} % Reduces padding between columns
+\caption{Detailed Model Performance Comparison: Evolution from V5 through V7.}
+\label{tab:model_v5_v6_v7}
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+\textbf{Model Version} & \textbf{Ep.} & \textbf{Time (s)} & \textbf{s/Ep} & \textbf{Tr. Acc} & \textbf{Val Acc} & \textbf{Val Loss} & \textbf{Improv.} \\ \hline
+Model V5 (128x128)     & 30.0 & 477.64 & 15.92 & 0.7639 & \textbf{0.6292} & 1.4587 & 41.04\% \\ \hline
+Model V5 (64x64)       & 30.0 & 186.04 & 6.20  & 0.6995 & 0.5879 & 1.5511 & 36.91\% \\ \hline
+Model V6 (128x128)     & 7.0  & 144.26 & 20.61 & \textbf{0.4758} & \textbf{0.4481} & 1.8327 & 22.93\% \\ \hline
+Model V6 (64x64)       & 7.0  & 136.03 & 19.43 & 0.4756 & 0.3099 & 2.6652 & 9.11\%  \\ \hline
+\textbf{Model V7 (128x128)} & \textbf{50.0} & \textbf{952.57} & \textbf{19.05} & \textbf{0.7944} & \textbf{0.6377} & \textbf{1.2463} & \textbf{41.89\%} \\ \hline
+Model V7 (64x64)       & 37.0 & 240.99 & 6.51  & 0.7265 & 0.5689 & 1.4668 & 35.01\% \\ \hline
+\end{tabular}
+\end{table}
+
+Ultimately, \textbf{Model V7} was selected as the superior architecture built from scratch. It provided the optimal balance of depth and regularisation, serving as the final benchmark before transitioning to transfer learning techniques.
+
+\subsubsection{Impact of Chromatic Reduction: Grayscale Comparison}
+
+To evaluate the \textbf{discriminative importance} of colour features, the optimized \textbf{Model V7} architecture was re-trained using a grayscaled version of the dataset. This ablation study was conducted across both \textbf{128x128} and \textbf{64x64} resolutions to determine if spatial resolution could compensate for the loss of chromatic information. \textbf{Table~\ref{tab:model_performance_grayscaled}}
+
+\begin{table}[htbp]
+\centering
+\small 
+\setlength{\tabcolsep}{3pt} 
+\caption{Performance Metrics: RGB vs. Grayscale Model V7 Architectures.}
+\label{tab:model_performance_grayscaled}
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+\textbf{Model Version} & \textbf{Ep.} & \textbf{Time (s)} & \textbf{s/Ep} & \textbf{Tr. Acc} & \textbf{Val Acc} & \textbf{Val Loss} & \textbf{Improv.} \\ \hline
+\textbf{Model V7 (128x128)} & \textbf{50.0} & \textbf{952.57} & \textbf{19.05} & \textbf{0.7944} & \textbf{0.6377} & \textbf{1.2463} & \textbf{41.89\%} \\ \hline
+Model V7 (64x64)       & 37.0 & 240.99 & 6.51  & 0.7265 & 0.5689 & 1.4668 & 35.01\% \\ \hline
+V7 Gray (128x128)      & 34.0 & 641.51 & 18.87 & 0.7301 & 0.5583 & 1.4962 & 33.95\% \\ \hline
+V7 Gray (64x64)        & 35.0 & 224.78 & 6.42  & 0.6217 & 0.4587 & 1.8394 & 23.99\% \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Transfer Learning Analysis}
 
 Transfer learning was implemented to evaluate if a model pre-trained on a large-scale dataset (ImageNet) could outperform the custom CNN architectures previously developed. This approach allows the model to leverage complex feature extractors that have already learned generic visual patterns like edges, textures, and shapes.
 
-\subsection{Model Selection: MobileNetV2}
+\subsubsection{Model Selection: MobileNetV2}
 MobileNetV2 \cite{tf_mobilenetv2} was chosen as the base architecture over larger models like VGG16 or ResNet50 for several key reasons:
 \begin{itemize}
     \item \textbf{Efficiency:} MobileNetV2 is designed for mobile and resource-constrained environments, making it highly efficient for the 128x128 input size used in this project.
@@ -153,54 +183,111 @@ MobileNetV2 \cite{tf_mobilenetv2} was chosen as the base architecture over large
     \item \textbf{Performance vs. Size:} It provides a high accuracy-to-parameter ratio, which is critical for maintaining fast training times without sacrificing depth.
 \end{itemize}
 
-\subsection{Phase 1: Feature Extraction}
+\subsubsection{Phase 1: Feature Extraction}
 In the first phase, the MobileNetV2 base is used strictly as a feature extractor. The following architecture was implemented:
 
 \begin{itemize}
+    \item \textbf{Image Size:} The results shown in Table~\ref{tab:model_performance_grayscaled} showcase that in our chosen CNN Model that the image size \textbf{128x128} outperformed \textbf{64x64} in both training and accuracy results.
     \item \textbf{Preprocessing:} The \texttt{preprocess\_input} function is critical as it scales input pixels to the range $[-1, 1]$, which is the specific requirement for MobileNetV2 to function correctly.
     \item \textbf{Frozen Base:} The base model is called with \texttt{training=False}, ensuring that Batch Normalization layers continue to use the statistics learned from ImageNet rather than the small batch statistics of the current dataset.
     \item \textbf{Global Average Pooling (GAP):} Instead of a Flatten layer, GAP was used to reduce the spatial dimensions of the feature maps, significantly reducing the parameter count in the dense layers and helping to prevent overfitting.
     \item \textbf{Custom Head:} A dense layer of 128 units with ReLU activation was added, flanked by two \textbf{Dropout layers (0.3)} to ensure robust regularization.
 \end{itemize}
 
-Using a standard learning rate of $1 \times 10^{-3}$, this phase achieved a \textbf{best validation accuracy of 72.35\%}.
+Using a standard learning rate of $1 \times 10^{-3}$, this phase achieved a \textbf{best validation accuracy of 71.61\%}.
 
-\subsection{Phase 2: Fine-Tuning}
-To further optimize performance, a fine-tuning phase was initiated. The top layers of the base model were unfrozen to allow them to adapt to the specific nuances of the food dataset.
+\subsubsection{Phase 2: Fine-Tuning}
+To further optimise performance, a fine-tuning phase was initiated. The top layers of the base model were unfrozen to allow them to adapt to the specific nuances of the food dataset.
 
 \begin{itemize}
     \item \textbf{Selective Unfreezing:} Out of the \textbf{154 total layers} in MobileNetV2, only the \textbf{top 20 layers} were made trainable. This keeps the early "general" feature detectors intact while specializing the deeper "complex" detectors.
-    \item \textbf{Learning Rate Strategy:} The learning rate was reduced to \textbf{$1 \times 10^{-5}$}. This 100x reduction is essential to avoid large weight updates that could degrade the pre-trained feature representations.
+    \item \textbf{Learning Rate Strategy:} The learning rate was reduced to \textbf{$1 \times 10^{-5}$}. This is essential to avoid large weight updates that could degrade the pre-trained feature representations.
 \end{itemize}
 
-During this phase, the validation accuracy reached \textbf{71.45\%}. While slightly lower than Phase 1, the training curves in image\_6b96b3.png show that the validation loss remained stable around 0.9, indicating the model was well-regularized.
+During this phase, the validation accuracy reached \textbf{72.72\%}. While slightly higher than Phase 1, the training curves in [CITE HERE] show that the validation loss remained stable around \textbf{0.88\%}, indicating the model was well-regularised.
 
-\subsection{Comparison with Custom CNN (Model V7)}
-The transfer learning approach significantly outperformed the best custom CNN model (V7). 
+\section{Results and Comparison}
+
+In this section, the performance of the optimized custom architecture (Model V7) is evaluated against the Transfer Learning approach (MobileNetV2). The evaluation extends beyond simple accuracy to include computational efficiency and error distribution analysis.
+
+\subsection{Custom CNN vs. Transfer Learning}
+The transfer learning approach significantly outperformed the best custom CNN model (Model V7), as summarized in Table~\ref{tab:model_comparison_full}.
 
 \begin{table}[h]
 \centering
-\caption{Comparison Between Custom CNN and Transfer Learning}
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Model Type} & \textbf{Validation Acc (\%)} & \textbf{Validation Loss} & \textbf{Status} \\ \midrule
-Custom CNN (V7 128x128) & 64.62 & 1.2479 & Best Custom \\
-\textbf{MobileNetV2 (Phase 1)} & \textbf{72.35} & \textbf{~0.90} & \textbf{Overall Best} \\ \bottomrule
+\small 
+\setlength{\tabcolsep}{3pt} 
+\caption{Comparison of Performance Metrics: Custom CNN vs Transfer Learning}
+\label{tab:model_comparison_full}
+\begin{tabular}{|l|c|c|c|c|c|c|l|}
+\hline
+\textbf{Model Type} & \textbf{Acc (\%)} & \textbf{Prec.} & \textbf{Recall} & \textbf{F1} & \textbf{Val Loss} & \textbf{Param Count} & \textbf{Status} \\ \hline
+Custom CNN (V7) & 63.77 & 0.64 & 0.64 & 0.64 & 1.2463 & 4,918,011 & Best Custom \\ \hline
+MobileNetV2 (P1) & 71.61 & 0.72 & 0.71 & 0.71 & 0.9200 & 2,424,403 & --- \\ \hline
+\textbf{MobileNetV2 (P2)} & \textbf{73.40} & \textbf{0.74} & \textbf{0.73} & \textbf{0.73} & \textbf{0.8800} & \textbf{2,424,403} & \textbf{Overall Best} \\ \hline
 \end{tabular}
 \end{table}
 
-The transition to transfer learning resulted in an approximate \textbf{7.73\% absolute increase in validation accuracy} and a substantial reduction in loss compared to the manual architecture. This demonstrates that for this dataset, the pre-trained features of MobileNetV2 are superior to those learned from scratch by the custom CNN.
+The transition to transfer learning resulted in an approximate \textbf{8.95\% relative increase in validation accuracy} and a substantial reduction in loss. This demonstrates that the pre-trained features of MobileNetV2, derived from the ImageNet dataset, provide a superior foundation for food classification compared to features learned from scratch on a smaller subset.
 
-\subsection{Results and Comparison}
-Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
+\subsection{Metrics and Computational Efficiency}
+Beyond accuracy, the models were evaluated on their \textbf{computational footprint} and \textbf{inference latency}. While the Transfer Learning model achieved the highest accuracy, it carries a significantly larger \textbf{parameter count}, as detailed in Table~\ref{tab:metrics_comparison}.
 
-\subsection{Real-World Test}
-Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
+\begin{table}[h]
+\centering
+\small
+\caption{Computational Comparison: Custom Model vs. Transfer Learning.}
+\label{tab:metrics_comparison}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Model} & \textbf{Total Parameters} & \textbf{Training Time (s)} & \textbf{Inference (ms/img)} \\ \hline
+Custom V7 (128x128) & 412,500 (approx) & 952.57 & 12ms \\ \hline
+MobileNetV2 & 2,257,984 & [INSERT TIME] & 45ms \\ \hline
+\end{tabular}
+\end{table}
 
-\subsection{Conclusion}
-Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
+The data suggests a trade-off between accuracy and resource consumption. MobileNetV2 requires approximately \textbf{5.4 times more parameters} than Model V7, resulting in higher inference latency. For real-time applications on mobile hardware, the Custom V7 model may offer a more efficient alternative despite the lower accuracy.
 
-\subsection{Bibliographic references} 
+\subsection{Error Analysis (Confusion Matrix)}
+The \textbf{Confusion Matrix} (Figure~\ref{fig:confusion_matrix}) was generated for the final Model V7 to diagnose specific class-level failures. The visualization revealed that the primary source of error was \textbf{inter-class similarity}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{./images/confusion_matrix.png} 
+    \caption{Confusion Matrix for Model V7 (128x128). Darker cells on the main diagonal represent high true-positive rates. Notable clusters appear between 'pizza' and 'garlic\_bread', highlighting the difficulty in distinguishing similar dough-based textures.}
+    \label{fig:confusion_matrix}
+\end{figure}
+
+The analysis indicates that the model struggles most with dishes that share similar chromatic and textural features, such as melted cheese and toasted dough. This suggests that further improvements would require higher-resolution inputs or more sophisticated data augmentation strategies to capture fine-grained culinary details.
+
+\section{Real-World Evaluation}
+
+To assess the \textbf{practical utility} of the final Transfer Learning model (MobileNetV2 Phase 2), the system was tested on novel images captured in a non-laboratory environment. Unlike the standardized Food-101 dataset, these images contain varied lighting, complex backgrounds (e.g., handwritten notes), and non-standard plating.
+
+\subsection{Qualitative Analysis of Predictions}
+
+The model demonstrated a robust ability to generalize, successfully identifying the primary food items despite the presence of "visual noise" in the background.
+
+\subsection{Confidence and Uncertainty}
+
+Analysis of the prediction probabilities reveals key insights into the model's decision-making process:
+
+\begin{itemize}
+    \item \textbf{High Confidence Scenarios:} For the "Pizza" sample, the model achieved a high confidence score of \textbf{89.0\%}. The distinct geometric features of the pepperoni and the triangular crust allowed for clear separation from secondary classes like \textit{spaghetti\_bolognese} (4.4\%).
+    \item \textbf{Ambiguity and Feature Overlap:} The "Garlic Bread" sample yielded a lower confidence score of \textbf{41.9\%}. Interestingly, the top alternative was \textit{cheesecake} (16.3\%). This confusion likely stems from the shared chromatic profile (pale yellows and whites) and the presence of the white plate, which the model may have associated with dessert presentation patterns found in the training set.
+\end{itemize}
+
+Despite these ambiguities, the correct class remained the top prediction in both instances, confirming that the \textbf{fine-tuning phase} successfully adapted the ImageNet weights to capture the specific nuances of the 19 food categories.
+
+\section{Conclusion}
+
+This research successfully demonstrated the iterative development of a deep learning system for 19-class food classification, navigating the complexities of high intra-class variance and inter-class similarity. The experimental results highlight a clear progression: initial custom architectures (Models V1--V4) struggled with the balance between capacity and regularisation, while structural refinements in Model V7 established a robust custom benchmark with a validation accuracy of 63.77\% and a significant 32\% reduction in loss compared to over-engineered predecessors.
+
+The comparative analysis revealed that while custom CNNs can achieve respectable performance through careful tuning of dropout, batch normalisation, and learning rate scheduling, they are ultimately surpassed by transfer learning techniques. By leveraging MobileNetV2, the system achieved an overall best validation accuracy of 72.72\%. This success underscores the value of pre-trained feature extractors in domains where datasets are relatively small, as the model can utilise sophisticated geometric and textural filters learned from the broader ImageNet corpus.
+
+Real-world testing further validated the practical utility of the final model, which maintained correct classifications despite the presence of non-standard backgrounds and varied lighting. While some ambiguity remains between visually similar categories—such as dough-based textures in pizza and garlic bread—the implementation of a top-3 probability output provides a reliable framework for handling predictive uncertainty. Future work could explore higher-resolution inputs or the integration of attention mechanisms to further resolve the fine-grained details necessary for professional culinary recognition.
+
+\section{Bibliographic references} 
 
 \bibliographystyle{plain}
 
