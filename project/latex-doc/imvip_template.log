@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.5.5)  10 MAY 2026 22:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.5.5)  10 MAY 2026 22:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -593,17 +593,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has
                                                   \__shipout_drop_firstpage_...
 l.199 
       ]
-
-LaTeX Warning: Reference `tab:model_comparison_full' on page 5 undefined on inp
-ut line 201.
-
-<./images/confusion_matrix.png, id=122, 1120.185pt x 992.70876pt>
+<./images/confusion_matrix.png, id=123, 1120.185pt x 992.70876pt>
 File: ./images/confusion_matrix.png Graphic file (type png)
 <use ./images/confusion_matrix.png>
 Package pdftex.def Info: ./images/confusion_matrix.png  used on input line 244.
 
 (pdftex.def)             Requested size: 217.6621pt x 192.88821pt.
-[5
+ [5
 pdfTeX warning (ext4): destination with the same identifier (name{table.5}) has
  been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
@@ -638,30 +634,26 @@ l.277 \end{document}
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `imvip_template.out' has not changed.
 (rerunfilecheck)             Checksum: 7812B2042106BB909E4CB939BB63D8EC;4139.
  ) 
 Here is how much of TeX's memory you used:
- 10391 strings out of 469515
- 156495 string characters out of 5470808
+ 10390 strings out of 469515
+ 156468 string characters out of 5470808
  572519 words of memory out of 5000000
- 38834 multiletter control sequences out of 15000+600000
+ 38833 multiletter control sequences out of 15000+600000
  697063 words of font info for 106 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 75i,10n,79p,865b,457s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,10n,79p,874b,457s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/fourier/fourier-ms.pfb></usr/share/
 texmf-dist/fonts/type1/adobe/utopia/putr8a.pfb></usr/share/texmf-dist/fonts/typ
 e1/urw/courier/ucrr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.p
 fb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-di
 st/fonts/type1/urw/times/utmri8a.pfb>
-Output written on imvip_template.pdf (6 pages, 298776 bytes).
+Output written on imvip_template.pdf (6 pages, 298649 bytes).
 PDF statistics:
- 180 PDF objects out of 1000 (max. 8388607)
- 156 compressed objects within 2 object streams
+ 181 PDF objects out of 1000 (max. 8388607)
+ 157 compressed objects within 2 object streams
  39 named destinations out of 1000 (max. 500000)
  179 words of extra memory for PDF output out of 10000 (max. 10000000)
 

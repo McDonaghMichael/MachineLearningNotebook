@@ -50,9 +50,9 @@ This study investigates the development of a deep learning framework for the cla
 
 \section{Introduction}
 
-Automated food recognition represents a significant challenge in computer vision due to high inter-class similarity and the diverse nature of culinary presentation. In this study, we investigate the classification of 19 distinct food categories from a subset of the Food-101 dataset. Initial experiments with a baseline Convolutional Neural Network (CNN) revealed substantial underfitting, yielding a classification accuracy of only 5.2\%. This necessitated an iterative architectural refinement process to enhance feature extraction and mitigate the impact of visual noise in meal environments.
+Automated food recognition represents a significant challenge in computer vision due to high inter-class similarity and the diverse nature of culinary presentation. In this study, the classification of 19 distinct food categories from a subset of the Food-101 dataset is investigated. Initial experiments with a baseline Convolutional Neural Network (CNN) revealed substantial underfitting, yielding a classification accuracy of only 5.2\%. This necessitated an iterative architectural refinement process to enhance feature extraction and mitigate the impact of visual noise in meal environments.
 
-Our approach evaluates two distinct methodologies: multi-block CNN and a Transfer Learning framework. Through structural optimisations, the custom Model V7 achieved a stable validation accuracy of 63.77\%. However, a two-phase Transfer Learning strategy involving feature extraction and fine-tuning ultimately provided the superior foundation, reaching a peak accuracy of 73.40\%. This paper outlines the comparative performance, computational trade-offs, and real-world utility of these models.
+The research evaluates two distinct methodologies: multi-block CNN and a Transfer Learning framework. Through structural optimisations, the custom Model V7 achieved a stable validation accuracy of 63.77\%. However, a two-phase Transfer Learning strategy involving feature extraction and fine-tuning ultimately provided the superior foundation, reaching a peak accuracy of 73.40\%. This paper outlines the comparative performance, computational trade-offs, and real-world utility of these models.
 
 \section{Data and Pre-Processing}
 To ensure a structured and reproducible workflow, several key parameters were established prior to data handling. A global seed of \texttt{421944} (based on the student identification number) was implemented to maintain consistency across all experiments. The data is processed in batches of \texttt{32}, utilising two distinct image resolutions: \texttt{128x128} and \texttt{64x64}. All computational tasks were executed locally on an NVIDIA GeForce RTX 4060 GPU, with a dedicated verification step to ensure CUDA acceleration was properly utilised.
@@ -85,7 +85,7 @@ An initial audit of the dataset confirmed it is perfectly balanced (see \textbf{
 
 \subsection{CNN From Scratch: Iterative Development}
 
-The development of the custom Convolutional Neural Network (CNN) followed an iterative progression, transitioning from a high-parameter baseline to a refined, efficient architecture optimised for generalisation on my dataset.
+The development of the custom Convolutional Neural Network (CNN) followed an iterative progression, transitioning from a high-parameter baseline to a refined, efficient architecture optimised for generalisation on the provided dataset.
 
 \subsubsection{Initial Models: From Overfitting to Underfitting}
 The development began with \textbf{Model V1 (Baseline)}, which utilised two convolutional blocks and a single Max Pooling layer for downsampling. This model exhibited extreme overfitting, achieving a training accuracy of \textbf{98.42\%} while validation accuracy stagnated at \textbf{21.88\%}. This massive disparity indicated that the network was memorising noise within the training set rather than learning generalisable features.
@@ -110,7 +110,7 @@ Model V2 (64x64)              & 20 & 110.29 & 5.51  & 0.0520 & 0.0546 & 2.9451 &
 \subsubsection{Structural Refinement and Regularisation}
 \textbf{Model V3} aimed to find a middle ground by reverting to two convolutional blocks while introducing \textbf{Batch Normalisation} to stabilise internal covariate shift. A significant architectural change was the replacement of the flattening layer with \textbf{GlobalAveragePooling2D}, which reduced the parameter count from approximately \textit{8.6 million} to just \textit{41,299}.
 
-In \textbf{Model V4}, \textbf{Image Augmentation} \textit{(horizontal flips, 10\% rotations, and 10\% zooms)} was integrated into the pipeline to artificially expand the dataset diversity. While this stabilised the training loss, the model remained sensitive to extreme transformations, resulting in a validation accuracy of approximately \textbf{22.99\%}. However, it was at this point that I noticed the image size \textbf{64x64} had outperformed \textbf{128x128} having reached \textbf{34.80\%} validation accuracy. This led me to investigate that having only two convolutional layers for a \textbf{128x128} image wasn't enough for the model to correctly learn. The rescaling of the image to \textbf{64x64} actually helped remove some of that extra noise, paired with the augementation, actually performed better.
+In \textbf{Model V4}, \textbf{Image Augmentation} \textit{(horizontal flips, 10\% rotations, and 10\% zooms)} was integrated into the pipeline to artificially expand the dataset diversity. While this stabilised the training loss, the model remained sensitive to extreme transformations, resulting in a validation accuracy of approximately \textbf{22.99\%}. However, at this point, it was observed that the image size \textbf{64x64} had outperformed \textbf{128x128} having reached \textbf{34.80\%} validation accuracy. This prompted an investigation into that having only two convolutional layers for a \textbf{128x128} image wasn't enough for the model to correctly learn. The rescaling of the image to \textbf{64x64} actually helped remove some of that extra noise, paired with the augementation, actually performed better.
 
 \begin{table}[h]
 \centering
@@ -129,7 +129,7 @@ Model V4 (64x64)       & 60 & 307.29 & 5.12  & 0.4073 & 0.3480 & 2.0967 & 12.92\
 \end{table}
 
 \subsubsection{Scaling and Final Optimisation}
-\textbf{Model V5} followed with increase in validation reaching an accuracy of \textbf{62.92\%} with the addition of extra two convolutional layers to learn more complex features. The usage of \textbf{Batch Normalisation} on each of those layers stablised the learning progress even further, allowing for me to increase my learning rate back up to $1 \times 10^{-2}$.
+\textbf{Model V5} followed with increase in validation reaching an accuracy of \textbf{62.92\%} with the addition of extra two convolutional layers to learn more complex features. The usage of \textbf{Batch Normalisation} on each of those layers stablised the learning progress even further, enabling the learning rate to be increased back to $1 \times 10^{-2}$.
 
 Over-engineering became the downfall in validation, to \textbf{44.81\%} and training accuracy, to \textbf{47.58\%} with \textbf{Model V6} due to drastically increasing the width and depth (adding 512 and 1024-filter layers) and an enormous 2048-unit Dense layer. A layer with 1024 filters and a dense layer of 2048 showcased that the model was memorising specific noise rather than learning general features. By the time the data reaches the end of V6, the spatial resolution is tiny, but the number of channels is massive. The GlobalAveragePooling2D had to compress 1024 channels, which can lead to a loss of important spatial relationship info.
 
@@ -198,7 +198,7 @@ Using a learning rate of $1 \times 10^{-3}$, this phase reached \textbf{71.61\% 
 In this section, the performance of the optimised custom architecture (Model V7) is evaluated against the Transfer Learning approach (MobileNetV2). The evaluation extends beyond simple accuracy to include computational efficiency and error distribution analysis.
 
 \subsection{Custom CNN vs. Transfer Learning}
-The transfer learning approach significantly outperformed the best custom CNN model (Model V7), as summarised in Table~\ref{tab:model_comparison_full}.
+The transfer learning approach significantly outperformed the best custom CNN model (Model V7), as summarised in Table~\ref{tab:master_comparison}.
 
 \begin{table}[h]
 \centering
@@ -209,8 +209,8 @@ The transfer learning approach significantly outperformed the best custom CNN mo
 \begin{tabular}{@{}lcccccr@{}}
 \toprule
 \textbf{Model Architecture} & \textbf{Acc. (\%)} & \textbf{Macro F1} & \textbf{Val Loss} & \textbf{Params} & \textbf{Status} \\ \midrule
-Custom CNN (Greyscale) & 64.10 & 0.635 & 1.3120 & 4,918,011 & Custom \\
-Custom CNN (RGB V7) & 63.77 & 0.640 & 1.2463 & 4,918,011 & Best Custom \\ \midrule
+Custom CNN (Greyscale) & 64.10 & 0.635 & 1.3120 & 4,918,011 & Scratch (Base) \\
+Custom CNN (RGB V7) & 63.77 & 0.640 & 1.2463 & 4,918,011 & Best Scratch \\ \midrule
 MobileNetV2 (Base) & 71.61 & 0.710 & 0.9200 & 2,424,403 & Pre-trained \\
 \textbf{MobileNetV2 (Fine-Tuned)} & \textbf{73.40} & \textbf{0.730} & \textbf{0.8800} & \textbf{2,424,403} & \textbf{Overall Best} \\ \bottomrule
 \end{tabular}
@@ -229,7 +229,7 @@ Evaluation reveals a trade-off between architectural complexity and speed. While
 \begin{tabular}{@{}lccc@{}}
 \toprule
 \textbf{Model} & \textbf{Parameters} & \textbf{Batch Train Time (ms)} & \textbf{Avg. Inference (ms)*} \\ \midrule
-Custom V7 & 4,918,011 & 230 & 12.00 \\
+Custom V7 & 4,918,011 & 230 & - \\
 MobileNetV2 & 2,257,984 & 490 & 168.41 \\ \bottomrule
 \end{tabular}
 \end{table}
@@ -248,14 +248,14 @@ The \textbf{Confusion Matrix} (Figure~\ref{fig:confusion_matrix}) was generated 
 
 \section{Real-World Evaluation}
 
-To assess the \textbf{practical utility} of the final Transfer Learning model, the system was tested on images captured by myself. Analysis of prediction probabilities reveals the impact of feature overlap on model certainty. While fine-tuning successfully identified the correct class for all samples, confidence varied based on visual distinctiveness (see Table~\ref{tab:confidence_analysis}).
+To assess the practical utility of the final Transfer Learning model, the system was tested on original photographs captured specifically for this study. Analysis of prediction probabilities reveals the impact of feature overlap on model certainty. While fine-tuning successfully identified the correct class for all samples, confidence varied based on visual distinctiveness (see Table~\ref{tab:confidence_analysis}).
 
 \begin{table}[h]
 \centering
 \small
 \begin{tabular}{@{}llllp{4.5cm}@{}}
 \toprule
-\textbf{Sample} & \textbf{Top Class} & \textbf{Conf.} & \textbf{Alt. Class (Prob.)} & \textbf{Key Visual Drivers} \\ \midrule
+\textbf{Target} & \textbf{Prediction} & \textbf{Conf.} & \textbf{Alt. Class (Prob.)} & \textbf{Key Visual Drivers} \\ \midrule
 Pizza & Pizza & 89.0\% & Spaghetti (4.4\%) & Clear shapes like round toppings and crust edges. \\
 Garlic Bread & Garlic Bread & 41.9\% & Cheesecake (16.3\%) & Plain beige colors and similar rectangular shapes. \\
 Cheesecake & Cheesecake & 39.5\% & Carrot Cake (20.3\%) & Both have thick white layers on top of a darker base. \\
